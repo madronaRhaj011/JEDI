@@ -1,4 +1,5 @@
 const orderModel = require('../models/orderModel');
+const inventoryModel = require('../models/inventoryModel');
 
 exports.getOrders = async (req, res) => {
     try {
@@ -130,21 +131,46 @@ exports.getOrderItems = async (req, res) => {
     }
 };
 
-// Add products to inventory and complete the order
 exports.addToInventory = async (req, res) => {
     try {
         const { purchase_order_id, inventory_items } = req.body;
 
-        if (!purchase_order_id || !inventory_items || !Array.isArray(inventory_items) || inventory_items.length === 0) {
+        if (!purchase_order_id || !Array.isArray(inventory_items) || inventory_items.length === 0) {
             return res.status(400).json({ success: false, message: "Invalid request data" });
         }
 
-        await orderModel.addToInventory(purchase_order_id, inventory_items);
+        
+
+        for (const item of inventory_items) {
+            const batchResult = await inventoryModel.getBatchNumber(item.product_id);
+            const lastBatch = batchResult[0]?.lastBatch || 0;
+            const batch_number = lastBatch + 1;
+        
+            const user_id = req.session.user.id;
+        
+            // Corrected here
+            const insertedIds = await orderModel.addToInventory(purchase_order_id, batch_number, [item]);
+            const p_id = insertedIds[0];
+        
+            const movement_type = 'in';
+            const reason = 'New Supplier Delivery';
+        
+            await inventoryModel.addStockMovementLog(
+                p_id,
+                movement_type,
+                item.quantity_available,
+                reason,
+                user_id
+            );
+        }
+        
 
         res.json({ success: true, message: "Products successfully added to inventory and order marked as completed" });
+
     } catch (error) {
         console.error("Error adding products to inventory:", error);
         res.status(500).json({ success: false, message: "Failed to add products to inventory" });
     }
 };
+
 

@@ -157,11 +157,12 @@ exports.getOrderItems = async (purchase_order_id) => {
 };
 
 // Add products to inventory and complete the order
-exports.addToInventory = async (purchase_order_id, inventory_items) => {
+exports.addToInventory = async (purchase_order_id, batch_number, inventory_items) => {
     try {
+        let insertedIds = [];
 
         for (const item of inventory_items) {
-            let insertQuery = `
+            const insertQuery = `
                 INSERT INTO inventory_list (
                     product_id,
                     supplier_id,
@@ -172,19 +173,21 @@ exports.addToInventory = async (purchase_order_id, inventory_items) => {
                 ) VALUES (?, ?, ?, ?, ?, ?)
             `;
 
-            await db.execute(insertQuery, [
+            const [result] = await db.execute(insertQuery, [
                 item.product_id,
                 item.supplier_id,
                 item.quantity_available,
-                item.batch_number,
+                batch_number,
                 item.expiry_date,
                 item.storage_location
             ]);
 
-            let updateStockQuery = `
+            insertedIds.push(result.insertId); // Capture the insertId
+
+            const updateStockQuery = `
                 UPDATE products 
-                SET stock_quantity = stock_quantity + ? 
-                WHERE id = ?
+                SET total_quantity = total_quantity + ? 
+                WHERE product_id = ?
             `;
 
             await db.execute(updateStockQuery, [
@@ -193,7 +196,7 @@ exports.addToInventory = async (purchase_order_id, inventory_items) => {
             ]);
         }
 
-        let updateOrderQuery = `
+        const updateOrderQuery = `
             UPDATE purchase_orders 
             SET status = 'completed' 
             WHERE id = ?
@@ -201,7 +204,8 @@ exports.addToInventory = async (purchase_order_id, inventory_items) => {
 
         await db.execute(updateOrderQuery, [purchase_order_id]);
 
-        return { success: true, message: "Products successfully added to inventory and order marked as completed" };
+        return insertedIds; // Return all inserted inventory_list IDs
+
     } catch (error) {
         await db.rollback();
         throw new Error('Error adding products to inventory: ' + error.message);

@@ -645,7 +645,6 @@
             const unitPrice = row.dataset.price;
             const expiryDate = row.querySelector(".expiry-date").value;
             const storageLocation = row.querySelector(".storage-location").value;
-            const batchNumber = row.querySelector(".batch-number").value;
             
             if (!expiryDate) {
                 alert("Please enter an expiry date for all products.");
@@ -659,18 +658,12 @@
                 return;
             }
             
-            if (!batchNumber) {
-                alert("Please enter a batch number for all products.");
-                isValid = false;
-                return;
-            }
             
             inventoryItems.push({
                 product_id: productId,
                 supplier_id: supplierId,
                 quantity_available: quantity,
                 unit_price: unitPrice,
-                batch_number: batchNumber,
                 expiry_date: expiryDate,
                 storage_location: storageLocation
             });
@@ -837,7 +830,7 @@
                 if (data.success && data.items && data.items.length > 0) {
                     // Generate a batch number based on date and order ID
                     const today = new Date();
-                    const defaultBatchNumber = `BATCH-${today.getFullYear()}${(today.getMonth()+1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}-${orderId}`;
+                    // const defaultBatchNumber = `BATCH-${today.getFullYear()}${(today.getMonth()+1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}-${orderId}`;
                     
                     // Create a row for each product
                     data.items.forEach(item => {
@@ -854,11 +847,7 @@
                         
                         row.innerHTML = `
                             <div class="mb-2 font-medium">${item.product_name}</div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-sm text-gray-600 mb-1">Batch Number</label>
-                                    <input type="text" class="batch-number w-full p-2 border rounded" value="${defaultBatchNumber}" required>
-                                </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm text-gray-600 mb-1">Expiry Date</label>
                                     <input type="date" class="expiry-date w-full p-2 border rounded" min="${minDate}" required>
