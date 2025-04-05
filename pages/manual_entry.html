@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Inventory Entry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Manual Inventory Entry & Documentation
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Inventory Entry Form -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Add New Inventory Record</h2>
+            <form class="grid grid-cols-2 gap-4">
+                <input type="text" placeholder="Product Name" class="p-2 border rounded">
+                <input type="text" placeholder="SKU" class="p-2 border rounded">
+                <input type="number" placeholder="Quantity" class="p-2 border rounded">
+                <input type="text" placeholder="Supplier" class="p-2 border rounded">
+                <input type="date" class="p-2 border rounded">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Save Entry</button>
+            </form>
+        </div>
+
+        <!-- Document Upload -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Upload Supporting Documents</h2>
+            <form class="grid grid-cols-2 gap-4">
+                <input type="file" class="p-2 border rounded col-span-2">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Upload Document</button>
+            </form>
+        </div>
+
+        <!-- Uploaded Documents Table -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Uploaded Documents</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Document Name</th>
+                        <th class="p-3">Type</th>
+                        <th class="p-3">Uploaded By</th>
+                        <th class="p-3">Date</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Invoice_001.pdf</td>
+                        <td class="p-3">Invoice</td>
+                        <td class="p-3">Admin</td>
+                        <td class="p-3">2025-03-10</td>
+                        <td class="p-3"><button class="bg-red-600 text-white px-2 py-1 rounded">Delete</button></td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Receipt_002.jpg</td>
+                        <td class="p-3">Receipt</td>
+                        <td class="p-3">Manager</td>
+                        <td class="p-3">2025-03-09</td>
+                        <td class="p-3"><button class="bg-red-600 text-white px-2 py-1 rounded">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

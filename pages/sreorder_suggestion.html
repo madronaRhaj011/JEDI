@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reorder Suggestions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Reorder Suggestions
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- AI-Based Reorder Suggestions -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">AI-Based Reorder Recommendations</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Current Stock</th>
+                        <th class="p-3">Reorder Point</th>
+                        <th class="p-3">Suggested Quantity</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">SH-001</td>
+                        <td class="p-3 text-red-600 font-bold">15</td>
+                        <td class="p-3">30</td>
+                        <td class="p-3">50</td>
+                        <td class="p-3">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">TP-002</td>
+                        <td class="p-3 text-yellow-600 font-bold">25</td>
+                        <td class="p-3">40</td>
+                        <td class="p-3">30</td>
+                        <td class="p-3">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Supplier Lead Time & Demand Trends -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Supplier & Demand Insights</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-700 text-white">
+                        <th class="p-3">Product</th>
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Lead Time (Days)</th>
+                        <th class="p-3">Avg. Weekly Sales</th>
+                        <th class="p-3">Projected Demand</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">Supplier A</td>
+                        <td class="p-3">7</td>
+                        <td class="p-3">12</td>
+                        <td class="p-3 text-blue-600 font-bold">High</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">Supplier B</td>
+                        <td class="p-3">5</td>
+                        <td class="p-3">8</td>
+                        <td class="p-3 text-yellow-600 font-bold">Moderate</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- AI-Based Order Adjustment -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Adjust AI-Suggested Orders</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-medium">Product</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Shampoo</option>
+                        <option>Toothpaste</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Suggested Quantity</label>
+                    <input type="number" class="w-full p-2 border rounded" placeholder="Enter quantity">
+                </div>
+                <div>
+                    <label class="block font-medium">Supplier</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Supplier A</option>
+                        <option>Supplier B</option>
+                    </select>
+                </div>
+            </div>
+            <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Update Order</button>
+        </div>
+    </div>
+
+</body>
+</html>

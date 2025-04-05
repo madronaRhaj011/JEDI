@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Purchase Orders
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Create New Purchase Order -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Create Purchase Order</h2>
+            <form class="grid grid-cols-2 gap-4">
+                <select class="p-2 border rounded">
+                    <option>Select Supplier</option>
+                    <option>Supplier A</option>
+                    <option>Supplier B</option>
+                </select>
+                <input type="text" placeholder="Product Name" class="p-2 border rounded">
+                <input type="text" placeholder="SKU" class="p-2 border rounded">
+                <input type="number" placeholder="Quantity" class="p-2 border rounded">
+                <input type="date" placeholder="Expected Delivery Date" class="p-2 border rounded">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Create Order</button>
+            </form>
+        </div>
+
+        <!-- Purchase Order List -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Purchase Order List</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Order ID</th>
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Product</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">PO-1001</td>
+                        <td class="p-3">Supplier A</td>
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">50</td>
+                        <td class="p-3 text-yellow-600 font-bold">Pending</td>
+                        <td class="p-3 flex gap-2">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Mark as Delivered</button>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">PO-1002</td>
+                        <td class="p-3">Supplier B</td>
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">30</td>
+                        <td class="p-3 text-green-600 font-bold">Delivered</td>
+                        <td class="p-3">
+                            <button class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed" disabled>Completed</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

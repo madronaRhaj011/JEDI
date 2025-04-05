@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">All Products</h1>
+
+        <!-- Search & Filters -->
+        <div class="flex flex-col md:flex-row gap-4 justify-center mb-6">
+            <input type="text" id="searchInput" placeholder="Search products..." 
+                   class="w-full md:w-1/3 px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500">
+            
+            <select id="categoryFilter" class="w-full md:w-1/4 px-4 py-2 border rounded">
+                <option value="">All Categories</option>
+                <% products.forEach(product => { %>
+                    <option value="<%= product.category %>"><%= product.category %></option>
+                <% }) %>
+            </select>
+
+            <select id="brandFilter" class="w-full md:w-1/4 px-4 py-2 border rounded">
+                <option value="">All Brands</option>
+                <% products.forEach(product => { %>
+                    <option value="<%= product.brand %>"><%= product.brand %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <% products.forEach(product => { %>
+                <div class="product-item bg-white rounded-lg shadow-md p-4"
+                     data-name="<%= product.name.toLowerCase() %>" 
+                     data-category="<%= product.category.toLowerCase() %>" 
+                     data-brand="<%= product.brand.toLowerCase() %>">
+                     
+                    <img src="<%= product.image_path %>" alt="<%= product.name %>" class="w-full h-40 object-cover rounded-md mb-4">
+                    <h2 class="text-lg font-semibold">Product Name: <%= product.name %></h2>
+                    <p class="text-gray-600">Product SKU: <%= product.sku %></p>
+                    <p class="text-gray-600">Product Category: <%= product.category %></p>
+                    <p class="text-gray-600">Product Brand: <%= product.brand %></p>
+                    <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Details</button>
+                </div>
+            <% }) %>
+        </div>
+
+        <div>
+            <div>
+                <button>
+                    <a href="">Add</a>
+                </button>
+            </div>
+            <div>
+                <button>
+                    <a href="">Edit</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Search & Filters -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("searchInput");
+            const categoryFilter = document.getElementById("categoryFilter");
+            const brandFilter = document.getElementById("brandFilter");
+            const productItems = document.querySelectorAll(".product-item");
+
+            function filterProducts() {
+                const searchText = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value.toLowerCase();
+                const selectedBrand = brandFilter.value.toLowerCase();
+
+                productItems.forEach(item => {
+                    const name = item.getAttribute("data-name");
+                    const category = item.getAttribute("data-category");
+                    const brand = item.getAttribute("data-brand");
+
+                    const matchesSearch = name.includes(searchText);
+                    const matchesCategory = selectedCategory === "" || category === selectedCategory;
+                    const matchesBrand = selectedBrand === "" || brand === selectedBrand;
+
+                    if (matchesSearch && matchesCategory && matchesBrand) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            }
+
+            searchInput.addEventListener("input", filterProducts);
+            categoryFilter.addEventListener("change", filterProducts);
+            brandFilter.addEventListener("change", filterProducts);
+        });
+    </script>
+
+</body>
+</html>

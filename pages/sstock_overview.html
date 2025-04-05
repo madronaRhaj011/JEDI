@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Stock Overview
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Stock Status Table -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Real-Time Stock Monitoring</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Category</th>
+                        <th class="p-3">Stock Level</th>
+                        <th class="p-3">Expiry Date</th>
+                        <th class="p-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">SH-001</td>
+                        <td class="p-3">Personal Care</td>
+                        <td class="p-3">120</td>
+                        <td class="p-3">2025-06-15</td>
+                        <td class="p-3 text-green-600 font-bold">In Stock</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">TP-002</td>
+                        <td class="p-3">Personal Care</td>
+                        <td class="p-3 text-yellow-600 font-bold">20</td>
+                        <td class="p-3">2025-04-20</td>
+                        <td class="p-3 text-yellow-600 font-bold">Low Stock</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Dishwashing Liquid</td>
+                        <td class="p-3">DL-003</td>
+                        <td class="p-3">Home Care</td>
+                        <td class="p-3 text-red-600 font-bold">5</td>
+                        <td class="p-3">2025-03-10</td>
+                        <td class="p-3 text-red-600 font-bold">Critical</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Low Stock Alert -->
+        <div class="bg-red-100 p-4 mt-6 border-l-4 border-red-500 text-red-700">
+            <p><span class="font-bold">Alert:</span> Some products are critically low in stock! Consider restocking.</p>
+        </div>
+    </div>
+
+</body>
+</html>

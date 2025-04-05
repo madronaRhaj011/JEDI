@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        User Management & Role-Based Access Control
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Add New User Form -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Add New User</h2>
+            <form class="grid grid-cols-3 gap-4">
+                <input type="text" placeholder="Full Name" class="p-2 border rounded">
+                <input type="email" placeholder="Email" class="p-2 border rounded">
+                <select class="p-2 border rounded">
+                    <option>Select Role</option>
+                    <option>Admin</option>
+                    <option>Stock Manager</option>
+                    <option>Sales Personnel</option>
+                </select>
+                <input type="password" placeholder="Password" class="p-2 border rounded col-span-2">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-3">Add User</button>
+            </form>
+        </div>
+
+        <!-- User List Table -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">User List</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Full Name</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Role</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">John Doe</td>
+                        <td class="p-3">john@example.com</td>
+                        <td class="p-3">Admin</td>
+                        <td class="p-3"><span class="bg-green-500 text-white px-2 py-1 rounded">Active</span></td>
+                        <td class="p-3">
+                            <button class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
+                            <button class="bg-red-600 text-white px-2 py-1 rounded">Delete</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Jane Smith</td>
+                        <td class="p-3">jane@example.com</td>
+                        <td class="p-3">Stock Manager</td>
+                        <td class="p-3"><span class="bg-green-500 text-white px-2 py-1 rounded">Active</span></td>
+                        <td class="p-3">
+                            <button class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
+                            <button class="bg-red-600 text-white px-2 py-1 rounded">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

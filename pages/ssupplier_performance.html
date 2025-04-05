@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Performance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Supplier Performance Analysis
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Supplier Performance Overview -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Supplier Performance Overview</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Total Deliveries</th>
+                        <th class="p-3">On-Time Delivery Rate</th>
+                        <th class="p-3">Product Quality Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Supplier A</td>
+                        <td class="p-3">20</td>
+                        <td class="p-3 text-green-600 font-bold">95%</td>
+                        <td class="p-3 text-green-600 font-bold">4.8/5</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Supplier B</td>
+                        <td class="p-3">15</td>
+                        <td class="p-3 text-yellow-600 font-bold">80%</td>
+                        <td class="p-3 text-yellow-600 font-bold">4.2/5</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Supplier C</td>
+                        <td class="p-3">10</td>
+                        <td class="p-3 text-red-600 font-bold">60%</td>
+                        <td class="p-3 text-red-600 font-bold">3.5/5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Individual Supplier Details -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Supplier Performance Details</h2>
+            <select class="p-2 border rounded mb-4 w-full">
+                <option>Select Supplier</option>
+                <option>Supplier A</option>
+                <option>Supplier B</option>
+                <option>Supplier C</option>
+            </select>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <h3 class="font-semibold">Total Orders Fulfilled</h3>
+                    <p class="text-lg font-bold">20</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <h3 class="font-semibold">Late Deliveries</h3>
+                    <p class="text-lg font-bold text-red-600">1</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <h3 class="font-semibold">Quality Complaints</h3>
+                    <p class="text-lg font-bold text-yellow-600">2</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <h3 class="font-semibold">Average Delivery Time</h3>
+                    <p class="text-lg font-bold">3 Days</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

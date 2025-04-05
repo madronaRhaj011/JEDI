@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Supplier Management
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Add New Supplier -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Add New Supplier</h2>
+            <form class="grid grid-cols-2 gap-4">
+                <input type="text" placeholder="Supplier Name" class="p-2 border rounded">
+                <input type="text" placeholder="Contact Person" class="p-2 border rounded">
+                <input type="email" placeholder="Email" class="p-2 border rounded">
+                <input type="text" placeholder="Phone Number" class="p-2 border rounded">
+                <input type="text" placeholder="Address" class="col-span-2 p-2 border rounded">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Add Supplier</button>
+            </form>
+        </div>
+
+        <!-- Supplier List -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Supplier List</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Supplier Name</th>
+                        <th class="p-3">Contact Person</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Phone</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Supplier A</td>
+                        <td class="p-3">John Doe</td>
+                        <td class="p-3">johndoe@example.com</td>
+                        <td class="p-3">+123456789</td>
+                        <td class="p-3 flex gap-2">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Supplier B</td>
+                        <td class="p-3">Jane Smith</td>
+                        <td class="p-3">janesmith@example.com</td>
+                        <td class="p-3">+987654321</td>
+                        <td class="p-3 flex gap-2">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Alerts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Stock Alert System
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Low Stock Alerts -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Low Stock Alerts</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-red-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Stock Level</th>
+                        <th class="p-3">Threshold</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Dishwashing Liquid</td>
+                        <td class="p-3">DL-003</td>
+                        <td class="p-3 text-red-600 font-bold">5</td>
+                        <td class="p-3">10</td>
+                        <td class="p-3">
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded">Reorder</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">TP-002</td>
+                        <td class="p-3 text-yellow-600 font-bold">20</td>
+                        <td class="p-3">25</td>
+                        <td class="p-3">
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded">Reorder</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Expiry Alerts -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Expiry Alerts</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-yellow-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Expiry Date</th>
+                        <th class="p-3">Days Left</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">SH-001</td>
+                        <td class="p-3">2025-04-01</td>
+                        <td class="p-3 text-red-600 font-bold">20</td>
+                        <td class="p-3">
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Discount</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Custom Threshold Settings -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Set Custom Alert Thresholds</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-medium">Product</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Shampoo</option>
+                        <option>Toothpaste</option>
+                        <option>Dishwashing Liquid</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Low Stock Threshold</label>
+                    <input type="number" class="w-full p-2 border rounded" placeholder="Enter threshold">
+                </div>
+                <div>
+                    <label class="block font-medium">Expiry Alert Days</label>
+                    <input type="number" class="w-full p-2 border rounded" placeholder="Enter days before expiry">
+                </div>
+            </div>
+            <button class="mt-4 bg-green-500 text-white px-4 py-2 rounded">Save Settings</button>
+        </div>
+    </div>
+
+</body>
+</html>

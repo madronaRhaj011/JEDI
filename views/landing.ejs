@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Inventory Management System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .harvard-crimson {
+            background-color: #A51C30;
+        }
+        .harvard-text {
+            color: #A51C30;
+        }
+        .dashboard-card {
+            transition: transform 0.2s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-serif">
+    <!-- Navigation -->
+    <nav class="harvard-crimson">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-white text-xl font-bold">JEDI DISTRIBUTION INC.</h1>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                        <a href="#" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Products</a>
+                        <a href="#" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Orders</a>
+                        <a href="#" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                        <a href="#" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                    </div>
+                </div>
+
+                <!-- Profile & Notifications -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button class="text-red-900 hover:bg-red-900 hover:text-white p-2 rounded-full bg-white px-4">
+                        <a href="/login">Login</a>
+                    </button>
+                    <button class="text-red-900 hover:text-white hover:bg-red-900 p-2 rounded-full bg-white">
+                        <a href="/register">Register</a>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button text-white hover:bg-red-900 p-2 rounded-md">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden mobile-menu md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Products</a>
+                <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Orders</a>
+                <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Reports</a>
+                <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Settings</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold harvard-text">Dashboard Overview</h1>
+            <button class="harvard-crimson text-white px-4 py-2 rounded-md hover:bg-red-900 transition duration-300">
+                + Add New Product
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="dashboard-card bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500">Total Products</p>
+                        <h2 class="text-3xl font-bold harvard-text">2,451</h2>
+                    </div>
+                    <div class="harvard-crimson p-3 rounded-full">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500">Low Stock Items</p>
+                        <h2 class="text-3xl font-bold harvard-text">45</h2>
+                    </div>
+                    <div class="harvard-crimson p-3 rounded-full">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500">Pending Orders</p>
+                        <h2 class="text-3xl font-bold harvard-text">128</h2>
+                    </div>
+                    <div class="harvard-crimson p-3 rounded-full">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500">Total Value</p>
+                        <h2 class="text-3xl font-bold harvard-text">$524K</h2>
+                    </div>
+                    <div class="harvard-crimson p-3 rounded-full">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Recent Activity -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold mb-4 harvard-text">Recent Activity</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 border-b pb-4">
+                        <div class="harvard-crimson p-2 rounded-full">
+                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold">New stock added</p>
+                            <p class="text-sm text-gray-500">50 units of Product XYZ</p>
+                        </div>
+                        <span class="text-sm text-gray-500 ml-auto">2 mins ago</span>
+                    </div>
+                    <div class="flex items-center space-x-4 border-b pb-4">
+                        <div class="harvard-crimson p-2 rounded-full">
+                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Stock removed</p>
+                            <p class="text-sm text-gray-500">15 units of Product ABC</p>
+                        </div>
+                        <span class="text-sm text-gray-500 ml-auto">1 hour ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold mb-4 harvard-text">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="flex items-center justify-center space-x-2 harvard-crimson text-white p-4 rounded-lg hover:bg-red-900 transition duration-300">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span>Add Stock</span>
+                    </button>
+                    <button class="flex items-center justify-center space-x-2 harvard-crimson text-white p-4 rounded-lg hover:bg-red-900 transition duration-300">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Remove Stock</span>
+                    </button>
+                </div>   
+            </div>
+</body>
+</html>

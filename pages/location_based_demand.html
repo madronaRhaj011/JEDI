@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location-Based Demand Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Location-Based Demand Analysis
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Sales by Location Overview -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Sales by Location</h2>
+            <div class="flex justify-between">
+                <p>Select Region:</p>
+                <select class="p-2 border rounded">
+                    <option>All Regions</option>
+                    <option>Metro Manila</option>
+                    <option>Cebu</option>
+                    <option>Davao</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <img src="https://via.placeholder.com/600x300" alt="Sales Map" class="w-full rounded">
+                <p class="text-gray-600 text-sm text-center mt-2">*AI-generated heatmap showing demand concentration.</p>
+            </div>
+        </div>
+
+        <!-- Regional Stock Allocation -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Regional Stock Allocation Suggestions</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Region</th>
+                        <th class="p-3">High-Demand Product</th>
+                        <th class="p-3">Recommended Stock Increase</th>
+                        <th class="p-3">Projected Sales Growth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Metro Manila</td>
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3 text-green-600">+500 units</td>
+                        <td class="p-3 text-green-600 font-bold">+12%</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Cebu</td>
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3 text-green-600">+300 units</td>
+                        <td class="p-3 text-green-600 font-bold">+8%</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Davao</td>
+                        <td class="p-3">Laundry Detergent</td>
+                        <td class="p-3 text-green-600">+200 units</td>
+                        <td class="p-3 text-green-600 font-bold">+5%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Regular Datatables CSS -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <!-- Responsive Extension Datatables CSS -->
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+
+    <style>
+        /* Styling overrides for Datatables and other custom styles */
+        .dataTables_wrapper select,
+        .dataTables_wrapper .dataTables_filter input {
+            color: #4a5568;
+            padding: .5rem 1rem;
+            border-width: 2px;
+            border-radius: .25rem;
+            border-color: #edf2f7;
+            background-color: #edf2f7;
+        }
+        table.dataTable.hover tbody tr:hover,
+        table.dataTable.display tbody tr:hover {
+            background-color: #ebf4ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Stock Warnings -->
+<div id="stockWarnings" class="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 hidden">
+    <h3 class="font-semibold">Stock Warnings</h3>
+    <ul id="warningList"></ul>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="min-h-screen">
+    <!-- Top Navigation -->
+    <%- include('partials/nav') %>
+
+    <% if(messages.error) { %>
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <%= messages.error %>
+        </div>
+    <% } %>
+
+    <% if(messages.success) { %>
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            <%= messages.success %>
+        </div>
+    <% } %>
+
+    <main class="p-8">
+        <div class="container w-full mx-auto px-2">
+
+            <!-- Activity Logs Table -->
+            <div class="p-8 mt-6 rounded shadow bg-white">
+                <h2 class="text-xl font-bold mb-4">Activity Logs</h2>
+                <table id="activityLogTable" class="stripe hover w-full text-center">
+                    <thead>
+                        <tr>
+                            <th>Activity ID</th>
+                            <th>User ID</th>
+                            <th>Action Type</th>
+                            <th>Action Details</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% activitylogs.forEach(actlogs => { %>
+                        <tr>
+                            <td><%= actlogs.id %></td>
+                            <td><%= actlogs.user_id %></td>
+                            <td><%= actlogs.action_type %></td>
+                            <td><%= actlogs.action_details %></td>
+                            <td><%= actlogs.created_at %></td>
+                            <td>
+                                <button class="deleteBtn px-2 py-1 bg-blue-500 text-white rounded">Delete Log</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Stock Adjustments Table -->
+            <div class="p-8 mt-6 rounded shadow bg-white">
+                <h2 class="text-xl font-bold mb-4">Stock Adjustments</h2>
+                <table id="stockAdjustmentTable" class="stripe hover w-full text-center">
+                    <thead>
+                        <tr>
+                            <th>Stock Adjustment ID</th>
+                            <th>Inventory ID</th>
+                            <th>Quantity Adjusted</th>
+                            <th>Reason</th>
+                            <th>User ID</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% stockadjs.forEach(stockadjs => { %>
+                        <tr>
+                            <td><%= stockadjs.id %></td>
+                            <td><%= stockadjs.inventory_id %></td>
+                            <td><%= stockadjs.quantity_adjusted %></td>
+                            <td><%= stockadjs.reason %></td>
+                            <td><%= stockadjs.adjusted_by %></td>
+                            <td><%= stockadjs.created_at %></td>
+                            <td>
+                                <button class="deleteBtn px-2 py-1 bg-blue-500 text-white rounded">Delete Log</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Stock Movements Table -->
+            <div class="p-8 mt-6 rounded shadow bg-white">
+                <h2 class="text-xl font-bold mb-4">Stock Movements</h2>
+                <table id="stockMovementTable" class="stripe hover w-full text-center">
+                    <thead>
+                        <tr>
+                            <th>Stock Movement ID</th>
+                            <th>Product ID</th>
+                            <th>Movement Type</th>
+                            <th>Quantity</th>
+                            <th>Reason</th>
+                            <th>User ID</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% stockmvmnt.forEach(stockmvmnt => { %>
+                        <tr>
+                            <td><%= stockmvmnt.id %></td>
+                            <td><%= stockmvmnt.product_id %></td>
+                            <td><%= stockmvmnt.movement_type %></td>
+                            <td><%= stockmvmnt.quantity %></td>
+                            <td><%= stockmvmnt.reason %></td>
+                            <td><%= stockmvmnt.user_id %></td>
+                            <td><%= stockmvmnt.created_at %></td>
+                            <td>
+                                <button class="deleteBtn px-2 py-1 bg-blue-500 text-white rounded">Delete Log</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize each table separately
+        $('#activityLogTable').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+
+        $('#stockAdjustmentTable').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+
+        $('#stockMovementTable').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+    });
+</script>
+
+</body>
+</html>

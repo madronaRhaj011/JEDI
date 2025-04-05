@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Logs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Activity Logs & System Security
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Filter Options -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Filter Logs</h2>
+            <form class="grid grid-cols-4 gap-4">
+                <input type="date" class="p-2 border rounded">
+                <select class="p-2 border rounded">
+                    <option>Filter by User</option>
+                    <option>John Doe</option>
+                    <option>Jane Smith</option>
+                </select>
+                <select class="p-2 border rounded">
+                    <option>Filter by Action</option>
+                    <option>Stock Added</option>
+                    <option>Stock Updated</option>
+                    <option>Purchase Order Approved</option>
+                </select>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded">Apply Filter</button>
+            </form>
+        </div>
+
+        <!-- Activity Logs Table -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">User Activity Logs</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Date & Time</th>
+                        <th class="p-3">User</th>
+                        <th class="p-3">Action</th>
+                        <th class="p-3">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">March 10, 2025 - 10:15 AM</td>
+                        <td class="p-3">John Doe</td>
+                        <td class="p-3">Stock Added</td>
+                        <td class="p-3">Added 50 units of Shampoo</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">March 10, 2025 - 11:00 AM</td>
+                        <td class="p-3">Jane Smith</td>
+                        <td class="p-3">Purchase Order Approved</td>
+                        <td class="p-3">Approved order for 100 units of Toothpaste</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">March 10, 2025 - 01:30 PM</td>
+                        <td class="p-3">John Doe</td>
+                        <td class="p-3">Stock Updated</td>
+                        <td class="p-3">Adjusted stock count for Detergent</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

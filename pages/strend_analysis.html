@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Trend Analysis
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Filters -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Filter Sales Trends</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-medium">Select Product</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>All Products</option>
+                        <option>Shampoo</option>
+                        <option>Toothpaste</option>
+                        <option>Dishwashing Liquid</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Select Category</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>All Categories</option>
+                        <option>Personal Care</option>
+                        <option>Home Care</option>
+                        <option>Food Products</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Time Range</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                        <option>Quarterly</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Trend Graph (Placeholder) -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Sales Trend Graph</h2>
+            <div class="h-64 bg-gray-200 flex items-center justify-center rounded">
+                <p class="text-gray-500">[Sales Trend Graph Placeholder]</p>
+            </div>
+        </div>
+
+        <!-- Sales Insights -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Sales Insights</h2>
+            <ul class="list-disc pl-6">
+                <li><span class="font-bold">Shampoo</span>: 20% increase in sales last month.</li>
+                <li><span class="font-bold">Toothpaste</span>: Demand is stable over 3 months.</li>
+                <li><span class="font-bold">Dishwashing Liquid</span>: Sales dropped by 15% after price increase.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

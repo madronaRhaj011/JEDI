@@ -1,0 +1,81 @@
+<style>
+    .harvard-crimson {
+        background-color: #A51C30;
+    }
+    .harvard-text {
+        color: #A51C30;
+    }
+    .dashboard-card {
+        transition: transform 0.2s;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+<!-- Navigation -->
+<nav class="harvard-crimson">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <h1 class="text-white text-xl font-bold">JEDI DISTRIBUTION INC.</h1>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                    <a href="/homepage" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                    <a href="/product/product-list" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Product List</a>
+                    <a href="/inventory/inventory-list" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Inventory List</a>
+                    <a href="/orders/purchase_order" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Orders</a>
+                    <a href="/supplier/supplier-list" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Supplier</a>
+                    <a href="/user/user-management" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">User Management</a>
+                    <a href="/logs/show-all-logs" class="text-white hover:bg-red-900 px-3 py-2 rounded-md text-sm font-medium">Logs</a>
+                </div>
+            </div>
+
+            <!-- Profile & Notifications -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="text-white hover:bg-red-900 p-2 rounded-full">
+                    <a href="/alert/stock-alert">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </a>
+                </button>
+                <button class="text-white hover:bg-red-900 p-2 rounded-full">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+                <form action="/logout" method="POST">
+                    <button class="text-red-900 hover:text-white hover:bg-red-900 p-2 rounded-full bg-white" type="submit">
+                        Logout
+                    </button>
+                </form>
+                
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button type="button" class="mobile-menu-button text-white hover:bg-red-900 p-2 rounded-md">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="hidden mobile-menu md:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+            <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Products</a>
+            <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Orders</a>
+            <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Reports</a>
+            <a href="#" class="text-white hover:bg-red-900 block px-3 py-2 rounded-md text-base font-medium">Settings</a>
+        </div>
+    </div>
+</nav>

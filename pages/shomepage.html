@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Inventory System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        AI-Driven Inventory System - Dashboard
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-3 gap-6">
+            <div class="bg-white p-4 shadow-md rounded-lg">
+                <h2 class="text-lg font-semibold">Total Products</h2>
+                <p class="text-2xl font-bold text-blue-600">1,245</p>
+            </div>
+            <div class="bg-white p-4 shadow-md rounded-lg">
+                <h2 class="text-lg font-semibold">Low Stock Alerts</h2>
+                <p class="text-2xl font-bold text-red-500">12 Items</p>
+            </div>
+            <div class="bg-white p-4 shadow-md rounded-lg">
+                <h2 class="text-lg font-semibold">Pending Orders</h2>
+                <p class="text-2xl font-bold text-yellow-500">5 Orders</p>
+            </div>
+        </div>
+
+        <!-- AI Demand Forecasting -->
+        <div class="mt-6 bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">AI Demand Forecasting</h2>
+            <p class="text-gray-600">Predicted stock shortages for the next month:</p>
+            <ul class="mt-2">
+                <li class="p-2 border border-gray-300 rounded bg-yellow-100">🛑 Shampoo - Critical stock level in 15 days.</li>
+                <li class="p-2 border border-gray-300 rounded bg-red-100">⚠️ Soap - High demand detected, consider restocking.</li>
+            </ul>
+        </div>
+
+        <!-- Stock Alerts -->
+        <div class="mt-6 bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Stock Alerts</h2>
+            <p class="text-gray-600">These items are running low:</p>
+            <ul class="mt-2">
+                <li class="p-2 border border-gray-300 rounded bg-yellow-200">🚨 Detergent - Only 5 units left.</li>
+                <li class="p-2 border border-gray-300 rounded bg-red-200">❗ Toothpaste - Out of stock.</li>
+            </ul>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="mt-6 bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Recent Activities</h2>
+            <ul class="mt-2">
+                <li class="p-2 border border-gray-300 rounded bg-gray-100">📦 New stock added: 50 units of Shampoo.</li>
+                <li class="p-2 border border-gray-300 rounded bg-gray-100">📊 Sales report generated for February 2025.</li>
+                <li class="p-2 border border-gray-300 rounded bg-gray-100">🔄 Stock adjustment made for expired Toothpaste.</li>
+            </ul>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="mt-6 flex gap-4">
+            <a href="inventory.html" class="bg-blue-500 text-white p-3 rounded shadow hover:bg-blue-700">View Inventory</a>
+            <a href="forecasting.html" class="bg-green-500 text-white p-3 rounded shadow hover:bg-green-700">AI Forecasting</a>
+            <a href="suppliers.html" class="bg-purple-500 text-white p-3 rounded shadow hover:bg-purple-700">Manage Suppliers</a>
+        </div>
+    </div>
+</body>
+</html>

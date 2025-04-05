@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Add / Edit Product
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Product Form -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Product Details</h2>
+            <form action="#" method="POST" class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-medium">Product Name</label>
+                    <input type="text" placeholder="Enter product name" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">SKU</label>
+                    <input type="text" placeholder="Enter SKU" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Category</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Personal Care</option>
+                        <option>Home Care</option>
+                        <option>Food Products</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Initial Stock Quantity</label>
+                    <input type="number" placeholder="Enter quantity" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Supplier</label>
+                    <input type="text" placeholder="Enter supplier name" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Storage Location</label>
+                    <input type="text" placeholder="Enter location" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Batch Number</label>
+                    <input type="text" placeholder="Enter batch number" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Expiration Date</label>
+                    <input type="date" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-2">
+                    <label class="block font-medium">Description</label>
+                    <textarea placeholder="Enter product description" class="w-full p-2 border rounded"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-6 flex gap-4">
+            <button class="bg-green-500 text-white p-3 rounded shadow hover:bg-green-700">Save Product</button>
+            <a href="inventory.html" class="bg-gray-500 text-white p-3 rounded shadow hover:bg-gray-700">Cancel</a>
+        </div>
+    </div>
+
+</body>
+</html>

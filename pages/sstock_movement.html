@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Stock Movement Tracking
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Stock In/Out Form -->
+        <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Log Stock Movement</h2>
+            <form class="grid grid-cols-2 gap-4">
+                <select class="p-2 border rounded">
+                    <option>Select Product</option>
+                    <option>Shampoo</option>
+                    <option>Toothpaste</option>
+                    <option>Dish Soap</option>
+                </select>
+                <input type="text" placeholder="SKU" class="p-2 border rounded">
+                <input type="number" placeholder="Quantity" class="p-2 border rounded">
+                <select class="p-2 border rounded">
+                    <option>Stock In</option>
+                    <option>Stock Out</option>
+                </select>
+                <input type="text" placeholder="Reason (e.g., Sold, Damaged, Returned)" class="p-2 border rounded">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Log Movement</button>
+            </form>
+        </div>
+
+        <!-- Stock Movement History -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Stock Movement History</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Date</th>
+                        <th class="p-3">Product</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3">Type</th>
+                        <th class="p-3">Reason</th>
+                        <th class="p-3">User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">2025-03-10</td>
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">SH-001</td>
+                        <td class="p-3 text-green-600">+50</td>
+                        <td class="p-3 text-green-600 font-bold">Stock In</td>
+                        <td class="p-3">New Shipment</td>
+                        <td class="p-3">Admin</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">2025-03-09</td>
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">TP-002</td>
+                        <td class="p-3 text-red-600">-20</td>
+                        <td class="p-3 text-red-600 font-bold">Stock Out</td>
+                        <td class="p-3">Sold</td>
+                        <td class="p-3">Sales Staff</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">2025-03-08</td>
+                        <td class="p-3">Dish Soap</td>
+                        <td class="p-3">DS-003</td>
+                        <td class="p-3 text-yellow-600">-5</td>
+                        <td class="p-3 text-yellow-600 font-bold">Stock Out</td>
+                        <td class="p-3">Damaged</td>
+                        <td class="p-3">Warehouse Staff</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

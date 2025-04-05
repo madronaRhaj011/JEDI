@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Adjustment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Stock Adjustment
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Stock Adjustment Form -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Adjust Stock</h2>
+            <form action="#" method="POST" class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-medium">Select Product</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Shampoo (SH-001)</option>
+                        <option>Toothpaste (TP-002)</option>
+                        <option>Dishwashing Liquid (DL-003)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Current Stock</label>
+                    <input type="text" value="120" class="w-full p-2 border rounded bg-gray-100" readonly>
+                </div>
+                <div>
+                    <label class="block font-medium">Adjustment Type</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Increase Stock</option>
+                        <option>Decrease Stock</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Adjustment Quantity</label>
+                    <input type="number" placeholder="Enter quantity" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-2">
+                    <label class="block font-medium">Reason for Adjustment</label>
+                    <textarea placeholder="E.g., Damaged items, Returned goods" class="w-full p-2 border rounded"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-6 flex gap-4">
+            <button class="bg-yellow-500 text-white p-3 rounded shadow hover:bg-yellow-700">Adjust Stock</button>
+            <a href="inventory.html" class="bg-gray-500 text-white p-3 rounded shadow hover:bg-gray-700">Cancel</a>
+        </div>
+    </div>
+
+</body>
+</html>

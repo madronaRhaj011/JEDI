@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Forecasting Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        AI Forecasting Dashboard
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- AI Insights -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">AI Demand Insights</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-yellow-100 p-4 rounded shadow">
+                    <h3 class="text-lg font-medium">Stockout Risk</h3>
+                    <p class="text-red-600 font-bold text-2xl">3 Products</p>
+                </div>
+                <div class="bg-green-100 p-4 rounded shadow">
+                    <h3 class="text-lg font-medium">Overstock Risk</h3>
+                    <p class="text-green-600 font-bold text-2xl">5 Products</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded shadow">
+                    <h3 class="text-lg font-medium">High-Demand Products</h3>
+                    <p class="text-blue-600 font-bold text-2xl">Shampoo, Soap, Milk</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Trend Graph (Placeholder) -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Sales Trend Analysis</h2>
+            <div class="h-64 bg-gray-200 flex items-center justify-center rounded">
+                <p class="text-gray-500">[Sales Trend Graph Placeholder]</p>
+            </div>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">AI Recommendations</h2>
+            <ul class="list-disc pl-6">
+                <li>Reorder <span class="font-bold">Shampoo</span> (Projected stockout in 5 days).</li>
+                <li>Reduce orders for <span class="font-bold">Dishwashing Liquid</span> (Low sales trend).</li>
+                <li>Promote <span class="font-bold">Toothpaste</span> (Increasing demand).</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Product Inventory Management
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Search and Filters -->
+        <div class="bg-white p-4 shadow-md rounded-lg">
+            <h2 class="text-lg font-semibold mb-2">Search & Filter</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <input type="text" placeholder="Search by SKU or Name" class="p-2 border rounded w-full">
+                <select class="p-2 border rounded w-full">
+                    <option>Filter by Category</option>
+                    <option>Personal Care</option>
+                    <option>Home Care</option>
+                    <option>Food Products</option>
+                </select>
+                <select class="p-2 border rounded w-full">
+                    <option>Sort by Expiry Date</option>
+                    <option>Newest First</option>
+                    <option>Oldest First</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Product List -->
+        <div class="mt-6 bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Product Inventory</h2>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">Product Name</th>
+                        <th class="border p-2">SKU</th>
+                        <th class="border p-2">Category</th>
+                        <th class="border p-2">Stock</th>
+                        <th class="border p-2">Supplier</th>
+                        <th class="border p-2">Expiry Date</th>
+                        <th class="border p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <td class="border p-2">Shampoo</td>
+                        <td class="border p-2">SH-001</td>
+                        <td class="border p-2">Personal Care</td>
+                        <td class="border p-2 text-green-500 font-bold">120</td>
+                        <td class="border p-2">Unilever</td>
+                        <td class="border p-2">2025-12-15</td>
+                        <td class="border p-2">
+                            <a href="edit_product.html" class="text-blue-500 hover:underline">Edit</a> |
+                            <a href="#" class="text-red-500 hover:underline">Delete</a>
+                        </td>
+                    </tr>
+                    <tr class="text-center">
+                        <td class="border p-2">Toothpaste</td>
+                        <td class="border p-2">TP-002</td>
+                        <td class="border p-2">Personal Care</td>
+                        <td class="border p-2 text-red-500 font-bold">Out of Stock</td>
+                        <td class="border p-2">Colgate</td>
+                        <td class="border p-2">2025-10-10</td>
+                        <td class="border p-2">
+                            <a href="edit_product.html" class="text-blue-500 hover:underline">Edit</a> |
+                            <a href="#" class="text-red-500 hover:underline">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add New Product -->
+        <div class="mt-6">
+            <a href="add_product.html" class="bg-green-500 text-white p-3 rounded shadow hover:bg-green-700">
+                + Add New Product
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

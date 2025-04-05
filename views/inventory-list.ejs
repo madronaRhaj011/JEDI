@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Regular Datatables CSS -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <!-- Responsive Extension Datatables CSS -->
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+
+    <style>
+        /* Styling overrides for Datatables and other custom styles */
+        .dataTables_wrapper select,
+        .dataTables_wrapper .dataTables_filter input {
+            color: #4a5568;
+            padding: .5rem 1rem;
+            border-width: 2px;
+            border-radius: .25rem;
+            border-color: #edf2f7;
+            background-color: #edf2f7;
+        }
+        table.dataTable.hover tbody tr:hover,
+        table.dataTable.display tbody tr:hover {
+            background-color: #ebf4ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+
+
+<div id="stockWarnings" class="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 hidden">
+    <h3 class="font-semibold">Stock Warnings</h3>
+    <ul id="warningList"></ul>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="min-h-screen">
+    <!-- Top Navigation -->
+    <%- include('partials/nav') %>
+
+    <% if(messages.error) { %>
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <%= messages.error %>
+        </div>
+    <% } %>
+
+    <% if(messages.success) { %>
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            <%= messages.success %>
+        </div>
+    <% } %>
+
+    <main class="p-8">
+        <div class="container w-full mx-auto px-2">
+            <div id="lowStockWarnings" class="mb-6 p-4 bg-yellow-100 border border-yellow-300 rounded-lg hidden">
+                <h2 class="text-yellow-700 font-bold mb-2">Low Stock Warnings</h2>
+                <ul id="lowStockList" class="text-yellow-800 list-disc pl-5"></ul>
+            </div>
+            <!-- Existing Table -->
+            <div id="recipients" class="p-8 mt-6 rounded shadow bg-white">
+                <h2 class="text-xl font-bold mb-4">Inventory List</h2>
+                <table id="example" class="stripe hover" style="width:100%; padding-top: 1em; padding-bottom: 1em; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Product SKU</th>
+                            <th>Category</th>
+                            <th>Supplier Name</th>
+                            <th>Quantity Available</th>
+                            <th>Batch Number</th>
+                            <th>Expiry Date</th>
+                            <th>Storage Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(pr => { %>
+                        <tr>
+                            <td><%= pr.product_id %></td>
+                            <td><%= pr.product_name %></td>
+                            <td><%= pr.product_sku %></td>
+                            <td><%= pr.product_category %></td>
+                            <td><%= pr.supplier_name %></td>
+                            <td><%= pr.quantity_available %></td>
+                            <td><%= pr.batch_number %></td>
+                            <td><%= formatDate(pr.expiry_date) %></td>
+                            <td><%= pr.storage_location %></td>
+                            <td class="whitespace-nowrap">
+                                <div class="flex space-x-2 justify-center">
+                                    <button class="editBtn px-2 py-1 bg-blue-500 text-white rounded" data-product-id="<%= pr.id %>">
+                                        Edit Info
+                                    </button>
+                                    <button class="editStockBtn px-2 py-1 bg-blue-500 text-white rounded" data-product-id="<%= pr.id %>">
+                                        Edit Stock
+                                    </button>
+                                </div>
+                            </td>                            
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+    
+            <!-- Add Product Form -->
+            <div class="p-8 mt-8 rounded shadow bg-white">
+                <h2 class="text-xl font-semibold mb-4">Add Products in Inventory</h2>
+                <form action="/inventory/addInventoryProducts" method="post">
+                    <div class="mb-4">
+                        <label for="product_id" class="block text-sm font-medium text-gray-700">Choose Product To Inventory</label>
+                        <select id="product_id" name="product_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">Select a product</option>
+                        </select>                        
+                    </div>
+                    <div class="mb-4">
+                        <label for="supplier_id" class="block text-sm font-medium text-gray-700">Select Product Supplier</label>
+                        <select id="supplier_id" name="supplier_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">Select a Supplier</option>
+                        </select>                        
+                    </div>
+                    <div class="mb-4">
+                        <label for="quantity_available" class="block text-sm font-medium text-gray-700">Quantity Available</label>
+                        <input type="text" name="quantity_available" id="quantity_available" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter quantity available" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="expiry_date" class="block text-sm font-medium text-gray-700">Expiry Date</label>
+                        <input type="date" name="expiry_date" id="expiry_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter expiry date" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="storage_location" class="block text-sm font-medium text-gray-700">Storage Location</label>
+                        <input type="text" name="storage_location" id="storage_location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter storage location" required>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Add Product In Inventory List</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <form id="editForm" action="/inventory/editInventoryProducts" method="post">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+            <h2 id="productName" class="text-xl font-semibold mb-4">Edit Inventory Product - <span id="modalProductName"></span></h2>
+            <input type="hidden" id="inventory_id" name="inventory_id">
+            <div class="mb-4">
+                <label for="productId" class="block text-sm font-medium text-gray-700">Product Name</label>
+                <select id="productId" name="productId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <option value="">Select a product</option>
+                </select>                        
+            </div>
+            <div class="mb-4">
+                <label for="supplierId" class="block text-sm font-medium text-gray-700">Product Supplier</label>
+                <select id="supplierId" name="supplierId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <option value="">Select a Supplier</option>
+                </select>                        
+            </div>
+            <div class="mb-4">
+                <label for="productExpiryDate" class="block text-sm font-medium text-gray-700">Product Expiry Date</label>
+                <input type="date" name="productExpiryDate" id="productExpiryDate" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="productStorageLocation" class="block text-sm font-medium text-gray-700">Product Storage Location</label>
+                <input type="text" name="productStorageLocation" id="productStorageLocation" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="flex justify-end">
+                <button id="saveButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2" type="submit" readonly>Save</button>
+                <button id="closeModal" class="px-4 py-2 bg-gray-300 rounded-lg" type="button">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- Edit Stock Modal -->
+<div id="editStockModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <form id="editForm" action="/inventory/editStock" method="post">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+            <h2 id="productName" class="text-xl font-semibold mb-4">Edit Inventory Stock - <span id="modalStockProductName"></span></h2>
+            <input type="hidden" id="inv_id" name="inv_id">
+            <input type="hidden" name="prod_id" id="prod_id">
+            <input type="hidden" name="user_id" id="user_id" value="<%- user.id %>">
+            <div class="mb-4">
+                <label for="current_stock" class="block text-sm font-medium text-gray-700">Current Stock Available</label>
+                <input type="text" name="current_stock" id="current_stock" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" readonly>
+            </div>
+            <div class="mb-4">
+                <label for="quantity" class="block text-sm font-medium text-gray-700">Adjust To</label>
+                <input type="text" name="quantity" id="quantity" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="reason" class="block text-sm font-medium text-gray-700">Reason For Adjusting</label>
+                <input type="text" name="reason" id="reason" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="flex justify-end">
+                <button id="saveButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2" type="submit" readonly>Save</button>
+                <button id="closeStockModal" class="px-4 py-2 bg-gray-300 rounded-lg" type="button">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+<script>
+     function formatDateForInput(dateString) {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return ''; // Return empty string if the date is invalid
+        }
+        return date.toISOString().split('T')[0]; // Extracts YYYY-MM-DD format
+    }
+
+    $(document).ready(function () {
+        // Initialize DataTable immediately on page load
+        const table = $('#example').DataTable({
+            responsive: true,
+            autoWidth: false // Prevent layout recalculation issues
+        });
+
+        fetch("/product/product_id_name")
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById("productId");
+            data.forEach(product => {
+                let option = document.createElement("option");
+                option.value = product.product_id;
+                option.textContent = product.product_name;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching products:", error));
+
+        fetch("/supplier/supplier_id_name")
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById("supplierId");
+            data.forEach(supplier => {
+                let option = document.createElement("option");
+                option.value = supplier.id;
+                option.textContent = supplier.supplier_name;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching suppliers:", error));
+
+        
+
+        // Event listener for Edit button
+        //info modal
+            $('#example tbody').on('click', 'button.editBtn', function () {
+            const data = table.row($(this).parents('tr')).data();
+
+            const productId = $(this).data('product-id');
+            $('#modalProductName').text(data[1]);
+            $('#productId').val(data[0]);
+            $('#inventory_id').val(productId);
+            $('#productExpiryDate').val(formatDateForInput(data[7]));
+            $('#productStorageLocation').val(data[8]);
+
+            // Set the supplier by comparing the text
+            $('#supplierId option').filter(function() {
+                return $(this).text().trim() === data[4].trim();
+            }).prop('selected', true);
+
+            // Open modal
+            $('#editModal').removeClass('hidden');
+            });
+
+            // Modal Close
+            $('#closeModal').on('click', function () {
+                $('#editModal').addClass('hidden');
+            });
+
+        
+
+
+
+        $('#example tbody').on('click', 'button.editStockBtn', function () {
+            const data = table.row($(this).parents('tr')).data();
+
+            const invID = $(this).data('product-id');
+            $('#modalStockProductName').text(data[1]);
+            $('#prod_id').val(data[0]);
+            $('#current_stock').val(data[5]);
+            $('#inv_id').val(invID);
+            
+
+            // Open modal
+            $('#editStockModal').removeClass('hidden');
+        });
+
+
+
+        // Modal Close
+        $('#closeStockModal').on('click', function () {
+            $('#editStockModal').addClass('hidden');
+        });
+
+    });
+
+</script>
+<script>
+    fetch("/product/product_id_name")
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById("product_id");
+            data.forEach(product => {
+                let option = document.createElement("option");
+                option.value = product.product_id;
+                option.textContent = product.product_name;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching products:", error));
+</script>
+
+<script>
+    fetch("/supplier/supplier_id_name")
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById("supplier_id");
+            data.forEach(supplier => {
+                let option = document.createElement("option");
+                option.value = supplier.id;
+                option.textContent = supplier.supplier_name;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching suppliers:", error));
+</script>
+
+<script>
+    
+</script>
+
+
+</body>
+</html>

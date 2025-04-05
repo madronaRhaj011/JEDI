@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Approval</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white text-center text-xl font-bold">
+        Order Approval
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Pending AI-Suggested Orders -->
+        <div class="bg-white p-6 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Pending AI-Suggested Orders</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Suggested Quantity</th>
+                        <th class="p-3">Order Status</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Shampoo</td>
+                        <td class="p-3">SH-001</td>
+                        <td class="p-3">Supplier A</td>
+                        <td class="p-3">50</td>
+                        <td class="p-3 text-yellow-600 font-bold">Pending</td>
+                        <td class="p-3 flex gap-2">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Approve</button>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Reject</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-3">Toothpaste</td>
+                        <td class="p-3">TP-002</td>
+                        <td class="p-3">Supplier B</td>
+                        <td class="p-3">30</td>
+                        <td class="p-3 text-yellow-600 font-bold">Pending</td>
+                        <td class="p-3 flex gap-2">
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Approve</button>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Reject</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Approved Orders -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Approved Orders</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-green-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3">Approval Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Soap</td>
+                        <td class="p-3">SP-003</td>
+                        <td class="p-3">Supplier C</td>
+                        <td class="p-3">40</td>
+                        <td class="p-3">March 10, 2025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Rejected Orders -->
+        <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+            <h2 class="text-xl font-semibold mb-4">Rejected Orders</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-red-500 text-white">
+                        <th class="p-3">Product Name</th>
+                        <th class="p-3">SKU</th>
+                        <th class="p-3">Supplier</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3">Rejection Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3">Lotion</td>
+                        <td class="p-3">LT-004</td>
+                        <td class="p-3">Supplier D</td>
+                        <td class="p-3">20</td>
+                        <td class="p-3 text-red-600">Supplier Unavailable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

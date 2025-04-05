@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Regular Datatables CSS -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <!-- Responsive Extension Datatables CSS -->
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+
+    <style>
+        /* Styling overrides for Datatables and other custom styles */
+        .dataTables_wrapper select,
+        .dataTables_wrapper .dataTables_filter input {
+            color: #4a5568;
+            padding: .5rem 1rem;
+            border-width: 2px;
+            border-radius: .25rem;
+            border-color: #edf2f7;
+            background-color: #edf2f7;
+        }
+        table.dataTable.hover tbody tr:hover,
+        table.dataTable.display tbody tr:hover {
+            background-color: #ebf4ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+
+
+<div id="stockWarnings" class="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 hidden">
+    <h3 class="font-semibold">Stock Warnings</h3>
+    <ul id="warningList"></ul>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="min-h-screen">
+    <!-- Top Navigation -->
+    <%- include('partials/nav') %>
+
+    <% if(messages.error) { %>
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <%= messages.error %>
+        </div>
+    <% } %>
+
+    <% if(messages.success) { %>
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            <%= messages.success %>
+        </div>
+    <% } %>
+
+    <main class="p-8">
+        <div class="container w-full mx-auto px-2">
+            <div id="lowStockWarnings" class="mb-6 p-4 bg-yellow-100 border border-yellow-300 rounded-lg hidden">
+                <h2 class="text-yellow-700 font-bold mb-2">Low Stock Warnings</h2>
+                <ul id="lowStockList" class="text-yellow-800 list-disc pl-5"></ul>
+            </div>
+            <!-- Existing Table -->
+            <div id="recipients" class="p-8 mt-6 rounded shadow bg-white">
+                <h2 class="text-xl font-bold mb-4">Supplier List</h2>
+                <table id="example" class="stripe hover" style="width:100%; padding-top: 1em; padding-bottom: 1em; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th>Supplier Name</th>
+                            <th>Contact Person</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% suppliers.forEach(sp => { %>
+                        <tr>
+                            <td><%= sp.supplier_name %></td>
+                            <td><%= sp.contact_person %></td>
+                            <td><%= sp.email %></td>
+                            <td><%= sp.phone_number %></td>
+                            <td><%= sp.address %></td>
+                            <td>
+                                <button class="editBtn px-2 py-1 bg-blue-500 text-white rounded" data-supplier-id="<%= sp.id %>">Edit Info</button>
+                                <button class="viewPricing px-2 py-1 bg-blue-500 text-white rounded">
+                                    <a href="/supplier/pricing-agreement?supplier_id=<%= sp.id %>">View Pricing Agreements</a>
+                                </button>
+                                
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+    
+            <!-- Add Product Form -->
+            <div class="p-8 mt-8 rounded shadow bg-white">
+                <h2 class="text-xl font-semibold mb-4">Add Supplier in Supplier List</h2>
+                <form action="/supplier/addSupplier" method="post">
+                    <div class="mb-4">
+                        <label for="supplier_name" class="block text-sm font-medium text-gray-700">Supplier Name</label>
+                        <input type="text" name="supplier_name" id="supplier_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Supplier Name" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contact_person" class="block text-sm font-medium text-gray-700">Contact Person</label>
+                        <input type="text" name="contact_person" id="contact_person" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Name of Contact Person" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Supplier Email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" name="phone_number" id="phone_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Supplier Phone Number" required maxlength="11">
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Supplier Address" required>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Add Product In Inventory List</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <form id="editForm" action="/supplier/editSupplier" method="post">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+            <h2 class="text-xl font-semibold mb-4">Edit Supplier Details - <span id="DisplayName"></span></h2>
+            <input type="hidden" id="supplier_id" name="supplier_id">
+            <div class="mb-4">
+                <label for="supplierName" class="block text-sm font-medium text-gray-700">Supplier Name</label>
+                <input type="text" name="supplierName" id="supplierName" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="contactPerson" class="block text-sm font-medium text-gray-700">Supplier Name</label>
+                <input type="text" name="contactPerson" id="contactPerson" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="supplier_email" class="block text-sm font-medium text-gray-700">Supplier Email</label>
+                <input type="email" name="supplier_email" id="supplier_email" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="supplier_phone_number" class="block text-sm font-medium text-gray-700">Supplier Phone Number</label>
+                <input type="text" name="supplier_phone_number" id="supplier_phone_number" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="supplier_address" class="block text-sm font-medium text-gray-700">Supplier Address</label>
+                <input type="text" name="supplier_address" id="supplier_address" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div> 
+            <div class="flex justify-end">
+                <button id="saveButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2" type="submit" readonly>Save</button>
+                <button id="closeModal" class="px-4 py-2 bg-gray-300 rounded-lg" type="button">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container mx-auto p-6">
+    <!-- Supplier Performance Overview -->
+    <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+        <h2 class="text-xl font-semibold mb-4">Supplier Performance Overview</h2>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-blue-500 text-white">
+                    <th class="p-3">Supplier</th>
+                    <th class="p-3">Total Deliveries</th>
+                    <th class="p-3">On-Time Delivery Rate</th>
+                    <th class="p-3">Product Quality Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b">
+                    <td class="p-3">Supplier A</td>
+                    <td class="p-3">20</td>
+                    <td class="p-3 text-green-600 font-bold">95%</td>
+                    <td class="p-3 text-green-600 font-bold">4.8/5</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-3">Supplier B</td>
+                    <td class="p-3">15</td>
+                    <td class="p-3 text-yellow-600 font-bold">80%</td>
+                    <td class="p-3 text-yellow-600 font-bold">4.2/5</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-3">Supplier C</td>
+                    <td class="p-3">15</td>
+                    <td class="p-3 text-yellow-600 font-bold">80%</td>
+                    <td class="p-3 text-yellow-600 font-bold">4.2/5</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-3">Supplier D</td>
+                    <td class="p-3">10</td>
+                    <td class="p-3 text-red-600 font-bold">60%</td>
+                    <td class="p-3 text-red-600 font-bold">3.5/5</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-3">Supplier E</td>
+                    <td class="p-3">10</td>
+                    <td class="p-3 text-red-600 font-bold">60%</td>
+                    <td class="p-3 text-red-600 font-bold">3.5/5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Individual Supplier Details -->
+    <div class="bg-white p-6 shadow-md rounded-lg">
+        <h2 class="text-xl font-semibold mb-4">Supplier Performance Details</h2>
+        <select class="p-2 border rounded mb-4 w-full">
+            <option>Select Supplier</option>
+            <option>Supplier A</option>
+            <option>Supplier B</option>
+            <option>Supplier C</option>
+            <option>Supplier D</option>
+            <option>Supplier E</option>
+        </select>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <h3 class="font-semibold">Total Orders Fulfilled</h3>
+                <p class="text-lg font-bold">20</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <h3 class="font-semibold">Late Deliveries</h3>
+                <p class="text-lg font-bold text-red-600">1</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <h3 class="font-semibold">Quality Complaints</h3>
+                <p class="text-lg font-bold text-yellow-600">2</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <h3 class="font-semibold">Average Delivery Time</h3>
+                <p class="text-lg font-bold">3 Days</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script>
+// Function to format date to YYYY-MM-DD for input type="date"
+
+    $(document).ready(function () {
+        // Initialize DataTable immediately on page load
+        const table = $('#example').DataTable({
+            responsive: true,
+            autoWidth: false // Prevent layout recalculation issues
+        });
+
+        
+
+        // Event listener for Edit button
+        //info modal
+        $('#example tbody').on('click', 'button.editBtn', function () {
+            const data = table.row($(this).parents('tr')).data();
+
+            const supplierID = $(this).data('supplier-id');
+            // Prefill modal with selected row data
+            $('#supplier_id').val(supplierID);
+            $('#DisplayName').text(data[0]);
+            $('#supplierName').val(data[0]);
+            $('#contactPerson').val(data[1]);
+            $('#supplier_email').val(data[2]);
+            $('#supplier_phone_number').val(data[3]);
+            $('#supplier_address').val(data[4]);
+
+            // Open modal
+            $('#editModal').removeClass('hidden');
+        });
+
+        // Modal Close
+        $('#closeModal').on('click', function () {
+            $('#editModal').addClass('hidden');
+        });
+
+        
+
+        
+
+    });
+
+</script>
+
+
+
+</body>
+</html>
