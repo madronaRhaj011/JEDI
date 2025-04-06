@@ -30,7 +30,9 @@ exports.addAlertThreshold = async (req, res) => {
         req.flash('success', 'Alert Threshold Added Successfully!');
         
         const alerts = await alertModel.getAlertThresholds();
-        res.render('stock_alert', {alerts, user: req.session.user});
+        const lowalerts = await alertModel.getLowStockAlerts();
+        const expiryalerts = await alertModel.getExpiryAlerts();
+        res.render('stock_alert', {alerts, expiryalerts, lowalerts, user: req.session.user});
         
     } catch (error) {
         console.error('Error in Adding Alert Threshold:', error);

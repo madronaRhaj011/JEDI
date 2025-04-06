@@ -10,5 +10,6 @@ router.post('/editSupplier', supplierController.editSupplier);
 router.post('/add-pricing-agreement', supplierController.addPricingAgreement);
 router.get('/supplier_id_name', supplierController.getSupplierIdName);
 router.get("/pricing_agreements/:supplierId", supplierController.getSupplierProducts);
+router.get('/supplier-performance-details/:id', supplierController.getSupplierPerformanceDetails);
 
 module.exports = router;

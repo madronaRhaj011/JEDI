@@ -84,10 +84,10 @@ exports.addStockAdjustmentLog = async (product_id, quantity_adjusted, reason, us
 }
 
 
-exports.addStockMovementLog = async (product_id, movement_type, quantity, reason, user_id) => {
+exports.addStockMovementLog = async (inventory_id, movement_type, quantity, reason, user_id) => {
     try {
-        const sql = `INSERT INTO stock_movements (product_id, movement_type, quantity, reason, user_id) VALUES (?, ?, ?, ?, ?)`;
-        const rows = await db.execute(sql, [product_id, movement_type, quantity, reason, user_id]);
+        const sql = `INSERT INTO stock_movements (inventory_id, movement_type, quantity, reason, user_id) VALUES (?, ?, ?, ?, ?)`;
+        const rows = await db.execute(sql, [inventory_id, movement_type, quantity, reason, user_id]);
         return rows;
         
     } catch (error) {
@@ -95,7 +95,16 @@ exports.addStockMovementLog = async (product_id, movement_type, quantity, reason
     }
 }
 
-
+exports.addActivityLog = async (user_id, action_type, action_details) => {
+    try {
+        const sql = `INSERT INTO activity_logs (user_id, action_type, action_details) VALUES (?, ?, ?, )`;
+        const rows = await db.execute(sql, [user_id, action_type, action_details]);
+        return rows;
+        
+    } catch (error) {
+        throw new Error('Error Adding Log' + error.message);
+    }
+}
 
 exports.getProductIdName = async () => {
     try {

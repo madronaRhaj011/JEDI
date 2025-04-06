@@ -211,3 +211,24 @@ exports.addToInventory = async (purchase_order_id, batch_number, inventory_items
         throw new Error('Error adding products to inventory: ' + error.message);
     } 
 };
+
+
+exports.getOrderSuggestions = async () => {
+    try {
+        const sql = `SELECT 
+                    p.product_name,
+                    p.product_sku,
+                    p.total_quantity,
+                    sa.threshold_value
+                FROM 
+                    products p
+                JOIN 
+                    stock_alerts sa ON p.product_id = sa.product_id
+                WHERE 
+                    p.total_quantity < sa.threshold_value;`;
+        const [rows] = await db.execute(sql);
+        return rows;
+    } catch (error) {
+        throw new Error('Error Selecting Inventory List ' + error.message);
+    }
+}

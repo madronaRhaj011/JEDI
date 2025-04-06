@@ -22,74 +22,10 @@
                 <%= messages.success %>
             </div>
         <% } %>
-
-        <div class="container mx-auto p-6 bg-white p-6 rounded-lg shadow-md mb-8">
-            <!-- AI-Based Reorder Suggestions -->
-            <div class="bg-white p-6 shadow-md rounded-lg">
-                <h2 class="text-xl font-semibold mb-4">AI-Based Reorder Recommendations</h2>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-blue-500 text-white">
-                            <th class="p-3">Product Name</th>
-                            <th class="p-3">SKU</th>
-                            <th class="p-3">Current Stock</th>
-                            <th class="p-3">Reorder Point</th>
-                            <th class="p-3">Suggested Quantity</th>
-                            <th class="p-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="p-3">Shampoo</td>
-                            <td class="p-3">SH-001</td>
-                            <td class="p-3 text-red-600 font-bold">15</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">50</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="p-3">Toothpaste</td>
-                            <td class="p-3">TP-002</td>
-                            <td class="p-3 text-yellow-600 font-bold">25</td>
-                            <td class="p-3">40</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-    
-            <!-- AI-Based Order Adjustment -->
-            <div class="bg-white p-6 shadow-md rounded-lg mt-6">
-                <h2 class="text-xl font-semibold mb-4">Adjust AI-Suggested Orders</h2>
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <label class="block font-medium">Product</label>
-                        <select class="w-full p-2 border rounded">
-                            <option>Shampoo</option>
-                            <option>Toothpaste</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-medium">Suggested Quantity</label>
-                        <input type="number" class="w-full p-2 border rounded" placeholder="Enter quantity">
-                    </div>
-                    <div>
-                        <label class="block font-medium">Supplier</label>
-                        <select class="w-full p-2 border rounded">
-                            <option>Supplier A</option>
-                            <option>Supplier B</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Update Order</button>
-            </div>
-            
-        </div>   
+        
+        <button type="button" id="SeeOrderSuggestionButton" class="bg-blue-500 text-white px-4 py-2 rounded my-4 hover:bg-blue-600 transition-colors">
+            <a href="/orders/order_suggestions">See Order Recommendations</a>
+        </button>
         <!-- Create New Purchase Order -->
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-6">Create Custom Purchase Order</h2>

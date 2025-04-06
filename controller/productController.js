@@ -23,12 +23,11 @@ exports.addProducts = async (req, res) => {
 
 
         // Stock Movement Log
-        const movement_type = 'in';
-        const quantity = total_quantity;
-        const reason = 'Add new Product';
         const user_id = req.session.user.id; // Get user ID from session
+        const action_type = "created_a_new_product";
+        const action_details = `created ${productName} with id of ${p_id}`
 
-        await productModel.addStockMovementLog(p_id, movement_type, quantity, reason, user_id);
+        await productModel.addActivityLog(user_id, action_type, action_details);
 
         req.flash('success', 'Product Added Successfully!');
         req.session.user = req.session.user;

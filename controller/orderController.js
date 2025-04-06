@@ -173,4 +173,16 @@ exports.addToInventory = async (req, res) => {
     }
 };
 
+exports.getOrderSuggestions = async (req, res) => {
+    try {
+        req.session.user = req.session.user;
+
+        return res.render('order_suggestion', {  user: req.session.user });
+
+    } catch (error) {
+        console.error('Error in Showing Logs:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 

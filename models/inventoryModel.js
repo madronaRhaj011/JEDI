@@ -135,10 +135,10 @@ exports.addStockAdjustmentLog = async (inventory_id, quantity_adjusted, reason, 
 }
 
 
-exports.addStockMovementLog = async (product_id, movement_type, quantity, reason, user_id) => {
+exports.addStockMovementLog = async (inventory_id, movement_type, quantity, reason, user_id) => {
     try {
-        const sql = `INSERT INTO stock_movements (product_id, movement_type, quantity, reason, user_id) VALUES (?, ?, ?, ?, ?)`;
-        const rows = await db.execute(sql, [product_id, movement_type, quantity, reason, user_id]);
+        const sql = `INSERT INTO stock_movements (inventory_id, movement_type, quantity, reason, user_id) VALUES (?, ?, ?, ?, ?)`;
+        const rows = await db.execute(sql, [inventory_id, movement_type, quantity, reason, user_id]);
         return rows;
         
     } catch (error) {

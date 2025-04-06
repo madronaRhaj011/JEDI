@@ -3,7 +3,10 @@ const supplierModel = require('../models/supplierModel');
 exports.getAllSuppliers = async (req, res) => {
     try {
         const suppliers = await supplierModel.getAllSupplier();
-        res.render('supplier-list', {suppliers, user: req.session.user});
+        const performanceData = await supplierModel.getSupplierPerformance();
+        const supplierDd = await supplierModel.getSupplierIdName();
+
+        res.render('supplier-list', {suppliers, performanceData, supplierDd, user: req.session.user});
         
     } catch (error) {
         console.error('Error in Displaying Suppliers', error);
@@ -13,15 +16,18 @@ exports.getAllSuppliers = async (req, res) => {
 }
 
 exports.addSupplier = async (req, res) => {
-    const {supplier_name, contact_person, email, phone_number, address} = req.body;
+    const {supplier_name, contact_person, email, phone_number, address, lead_time} = req.body;
 
     try {
-        await supplierModel.addSupplier(supplier_name, contact_person, email, phone_number, address);
+        await supplierModel.addSupplier(supplier_name, contact_person, email, phone_number, address, lead_time);
         req.flash('success', 'Supplier Added Successfully!');
         req.session.user = req.session.user;
 
         const suppliers = await supplierModel.getAllSupplier();
-        res.render('supplier-list', {suppliers, user: req.session.user});
+        const performanceData = await supplierModel.getSupplierPerformance();
+        const supplierDd = await supplierModel.getSupplierIdName();
+
+        res.render('supplier-list', {suppliers, performanceData, supplierDd, user: req.session.user});
 
         
     } catch (error) {
@@ -31,13 +37,16 @@ exports.addSupplier = async (req, res) => {
 }
 
 exports.editSupplier = async (req, res) => {
-    const {supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address} = req.body;
+    const {supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address, supplier_lead_time} = req.body;
     try {
-        await supplierModel.editSupplierDetails(supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address)
+        await supplierModel.editSupplierDetails(supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address, supplier_lead_time)
         req.flash('success', 'Supplier Details Edited Successfully!');
 
         const suppliers = await supplierModel.getAllSupplier();
-        res.render('supplier-list', {suppliers, user: req.session.user});
+        const performanceData = await supplierModel.getSupplierPerformance();
+        const supplierDd = await supplierModel.getSupplierIdName();
+
+        res.render('supplier-list', {suppliers, performanceData, supplierDd, user: req.session.user});
     } catch (error) {
         console.error('Error in Editing Supplier Detail:', error);
         res.status(500).send('Internal Server Error');
@@ -107,6 +116,36 @@ exports.addPricingAgreement = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+exports.getSupplierPerformanceDetails = async (req, res) => {
+    const supplierId = req.params.id;
+
+    try {
+        const [totalOrdersResult] = await supplierModel.getTotalOrdersFulfilled(supplierId);
+        const [lateDeliveriesResult] = await supplierModel.getLateDeliveries(supplierId);
+        const [qualityComplaintsResult] = await supplierModel.getQualityComplaints(supplierId);
+        const [avgDeliveryTimeResult] = await supplierModel.getAverageDeliveryTime(supplierId);
+
+        const totalOrders = totalOrdersResult[0]?.total_orders || 0;
+        const lateDeliveries = lateDeliveriesResult[0]?.late_deliveries || 0;
+        const qualityComplaints = qualityComplaintsResult[0]?.complaints || 0;
+        const averageDeliveryTime = avgDeliveryTimeResult[0]?.avg_delivery_time || 0;
+
+        res.json({
+            success: true,
+            data: {
+                totalOrders,
+                lateDeliveries,
+                qualityComplaints,
+                averageDeliveryTime
+            }
+        });
+    } catch (err) {
+        console.error("Error fetching supplier performance:", err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
 
 
 

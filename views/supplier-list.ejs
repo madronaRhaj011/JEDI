@@ -64,36 +64,41 @@
             <!-- Existing Table -->
             <div id="recipients" class="p-8 mt-6 rounded shadow bg-white">
                 <h2 class="text-xl font-bold mb-4">Supplier List</h2>
-                <table id="example" class="stripe hover" style="width:100%; padding-top: 1em; padding-bottom: 1em; text-align: center;">
-                    <thead>
-                        <tr>
-                            <th>Supplier Name</th>
-                            <th>Contact Person</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% suppliers.forEach(sp => { %>
-                        <tr>
-                            <td><%= sp.supplier_name %></td>
-                            <td><%= sp.contact_person %></td>
-                            <td><%= sp.email %></td>
-                            <td><%= sp.phone_number %></td>
-                            <td><%= sp.address %></td>
-                            <td>
-                                <button class="editBtn px-2 py-1 bg-blue-500 text-white rounded" data-supplier-id="<%= sp.id %>">Edit Info</button>
-                                <button class="viewPricing px-2 py-1 bg-blue-500 text-white rounded">
-                                    <a href="/supplier/pricing-agreement?supplier_id=<%= sp.id %>">View Pricing Agreements</a>
-                                </button>
-                                
-                            </td>
-                        </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table id="example" class="min-w-full bg-white border border-gray-200 divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Person</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <% suppliers.forEach(sp => { %>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= sp.supplier_name %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= sp.contact_person %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sp.email %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sp.phone_number %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sp.address %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"><%= sp.lead_time %></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                    <button class="editBtn px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium transition-colors duration-200" data-supplier-id="<%= sp.id %>">
+                                        Edit Info
+                                    </button>
+                                    <a href="/supplier/pricing-agreement?supplier_id=<%= sp.id %>" class="inline-block px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium transition-colors duration-200">
+                                        View Pricing
+                                    </a>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
     
             <!-- Add Product Form -->
@@ -120,6 +125,11 @@
                         <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                         <input type="text" name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Enter Supplier Address" required>
                     </div>
+                    <div class="mb-4">
+                        <label for="lead_time" class="block text-sm font-medium text-gray-700">Lead Time</label>
+                        <input type="number" name="lead_time" id="lead_time" min="1" max="20" 
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
                     <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Add Product In Inventory List</button>
                 </form>
             </div>
@@ -140,7 +150,7 @@
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="mb-4">
-                <label for="contactPerson" class="block text-sm font-medium text-gray-700">Supplier Name</label>
+                <label for="contactPerson" class="block text-sm font-medium text-gray-700">Contact Person</label>
                 <input type="text" name="contactPerson" id="contactPerson" 
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
@@ -159,6 +169,11 @@
                 <input type="text" name="supplier_address" id="supplier_address" 
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div> 
+            <div class="mb-4">
+                <label for="supplier_lead_time" class="block text-sm font-medium text-gray-700">Supplier Lead Time</label>
+                <input type="number" name="supplier_lead_time" id="supplier_lead_time" min="1" max="20" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
             <div class="flex justify-end">
                 <button id="saveButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2" type="submit" readonly>Save</button>
                 <button id="closeModal" class="px-4 py-2 bg-gray-300 rounded-lg" type="button">Cancel</button>
@@ -181,36 +196,14 @@
                 </tr>
             </thead>
             <tbody>
+                <% performanceData.forEach(supplier => { %>
                 <tr class="border-b">
-                    <td class="p-3">Supplier A</td>
-                    <td class="p-3">20</td>
-                    <td class="p-3 text-green-600 font-bold">95%</td>
-                    <td class="p-3 text-green-600 font-bold">4.8/5</td>
+                    <td class="p-3"><%= supplier.supplier_name %></td>
+                    <td class="p-3"><%= supplier.total_deliveries %></td>
+                    <td class="p-3 text-green-600 font-bold"><%= supplier.on_time_rate %> %</td>
+                    <td class="p-3 text-green-600 font-bold"><%= supplier.avg_quality_score %>/5</td>
                 </tr>
-                <tr class="border-b">
-                    <td class="p-3">Supplier B</td>
-                    <td class="p-3">15</td>
-                    <td class="p-3 text-yellow-600 font-bold">80%</td>
-                    <td class="p-3 text-yellow-600 font-bold">4.2/5</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-3">Supplier C</td>
-                    <td class="p-3">15</td>
-                    <td class="p-3 text-yellow-600 font-bold">80%</td>
-                    <td class="p-3 text-yellow-600 font-bold">4.2/5</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-3">Supplier D</td>
-                    <td class="p-3">10</td>
-                    <td class="p-3 text-red-600 font-bold">60%</td>
-                    <td class="p-3 text-red-600 font-bold">3.5/5</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-3">Supplier E</td>
-                    <td class="p-3">10</td>
-                    <td class="p-3 text-red-600 font-bold">60%</td>
-                    <td class="p-3 text-red-600 font-bold">3.5/5</td>
-                </tr>
+                <% }) %>
             </tbody>
         </table>
     </div>
@@ -218,31 +211,30 @@
     <!-- Individual Supplier Details -->
     <div class="bg-white p-6 shadow-md rounded-lg">
         <h2 class="text-xl font-semibold mb-4">Supplier Performance Details</h2>
-        <select class="p-2 border rounded mb-4 w-full">
-            <option>Select Supplier</option>
-            <option>Supplier A</option>
-            <option>Supplier B</option>
-            <option>Supplier C</option>
-            <option>Supplier D</option>
-            <option>Supplier E</option>
+        
+        <select id="supplierSelect" class="p-2 border rounded mb-4 w-full">
+            <option value="">Select Supplier</option>
+            <% supplierDd.forEach(supplierdd => { %>
+                <option value="<%= supplierdd.id %>"><%= supplierdd.supplier_name %></option>
+            <% }); %>
         </select>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div id="performanceMetrics" class="grid grid-cols-2 gap-4">
             <div class="bg-gray-100 p-4 rounded-lg shadow">
                 <h3 class="font-semibold">Total Orders Fulfilled</h3>
-                <p class="text-lg font-bold">20</p>
+                <p class="text-lg font-bold" id="totalOrders">0</p>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg shadow">
                 <h3 class="font-semibold">Late Deliveries</h3>
-                <p class="text-lg font-bold text-red-600">1</p>
+                <p class="text-lg font-bold text-red-600" id="lateDeliveries">0</p>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg shadow">
                 <h3 class="font-semibold">Quality Complaints</h3>
-                <p class="text-lg font-bold text-yellow-600">2</p>
+                <p class="text-lg font-bold text-yellow-600" id="qualityComplaints">0</p>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg shadow">
                 <h3 class="font-semibold">Average Delivery Time</h3>
-                <p class="text-lg font-bold">3 Days</p>
+                <p class="text-lg font-bold" id="avgDeliveryTime">0 Days</p>
             </div>
         </div>
     </div>
@@ -283,6 +275,7 @@
             $('#supplier_email').val(data[2]);
             $('#supplier_phone_number').val(data[3]);
             $('#supplier_address').val(data[4]);
+            $('#supplier_lead_time').val(data[5]);
 
             // Open modal
             $('#editModal').removeClass('hidden');
@@ -300,6 +293,38 @@
     });
 
 </script>
+<script>
+    document.getElementById('supplierSelect').addEventListener('change', function () {
+        const supplierId = this.value;
+        
+        if (!supplierId) {
+            // Reset to zero if no supplier is selected
+            document.getElementById('totalOrders').textContent = '0';
+            document.getElementById('lateDeliveries').textContent = '0';
+            document.getElementById('qualityComplaints').textContent = '0';
+            document.getElementById('avgDeliveryTime').textContent = '0 Days';
+            return;
+        }
+    
+        fetch(`/supplier/supplier-performance-details/${supplierId}`)
+            .then(res => res.json())
+            .then(data => {
+                const { totalOrders, lateDeliveries, qualityComplaints, averageDeliveryTime } = data.data;
+                console.log("Received data:", data); // ✅ Add this for debugging
+                document.getElementById('totalOrders').textContent = totalOrders || 0;
+                document.getElementById('lateDeliveries').textContent = lateDeliveries || 0;
+                document.getElementById('qualityComplaints').textContent = qualityComplaints || 0;
+                document.getElementById('avgDeliveryTime').textContent = (averageDeliveryTime || 0) + ' Days';
+            })
+            .catch(() => {
+                // Just in case there's an error
+                document.getElementById('totalOrders').textContent = '0';
+                document.getElementById('lateDeliveries').textContent = '0';
+                document.getElementById('qualityComplaints').textContent = '0';
+                document.getElementById('avgDeliveryTime').textContent = '0 Days';
+            });
+    });
+    </script>
 
 
 
