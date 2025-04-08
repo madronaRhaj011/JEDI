@@ -10,10 +10,10 @@ exports.getAllSupplier = async () => {
     }
 }
 
-exports.addSupplier = async (supplier_name, contact_person, email, phone_number, address, lead_time) => {
+exports.addSupplier = async (supplier_name, contact_person, email, phone_number, address) => {
     try {
-        const sql = `INSERT INTO suppliers (supplier_name, contact_person, email, phone_number, address, lead_time) VALUES (?, ?, ?, ?, ?,?)`;
-        const [rows] = await db.execute(sql, [supplier_name, contact_person, email, phone_number, address, lead_time]);
+        const sql = `INSERT INTO suppliers (supplier_name, contact_person, email, phone_number, address) VALUES (?, ?, ?, ?, ?)`;
+        const [rows] = await db.execute(sql, [supplier_name, contact_person, email, phone_number, address]);
         return rows;
         
     } catch (error) {
@@ -21,7 +21,7 @@ exports.addSupplier = async (supplier_name, contact_person, email, phone_number,
     }
 }
 
-exports.editSupplierDetails = async (supplier_id, supplierName, contactPerson , supplier_email, supplier_phone_number, supplier_address, supplier_lead_time) => {
+exports.editSupplierDetails = async (supplier_id, supplierName, contactPerson , supplier_email, supplier_phone_number, supplier_address) => {
     try {
         const sql = `
             UPDATE suppliers 
@@ -34,7 +34,6 @@ exports.editSupplierDetails = async (supplier_id, supplierName, contactPerson , 
             supplier_email, 
             supplier_phone_number,
             supplier_address,
-            supplier_lead_time,
             supplier_id
         ]);
         return rows;
@@ -76,7 +75,7 @@ exports.getSupplier = async (supplier_id) => {
 
 exports.getPricingAgreements = async (supplier_id) => {
     try {
-        const sql = `Select sa.product_id, sa.pricing_agreement, p.product_name from
+        const sql = `Select sa.id, sa.product_id, sa.pricing_agreement, sa.lead_time, p.product_name from
          supplier_agreements sa INNER JOIN products p ON sa.product_id = p.product_id where supplier_id = ?`;
         const [rows] = await db.execute(sql, [supplier_id]);
         return rows;
@@ -86,14 +85,30 @@ exports.getPricingAgreements = async (supplier_id) => {
     
 }
 
-exports.addPricingAgreement = async (supplier_id, product_id, pricing_agreement) => {
+exports.addPricingAgreement = async (supplier_id, product_id, pricing_agreement, lead_time) => {
     try {
-        const sql = `INSERT INTO supplier_agreements (supplier_id, product_id, pricing_agreement) VALUES (?, ?, ?)`;
-        const [rows] = await db.execute(sql, [supplier_id, product_id, pricing_agreement]);
+        const sql = `INSERT INTO supplier_agreements (supplier_id, product_id, pricing_agreement, lead_time) VALUES (?, ?, ?, ?)`;
+        const [rows] = await db.execute(sql, [supplier_id, product_id, pricing_agreement, lead_time]);
         return rows;
         
     } catch (error) {
         throw new Error('Error Adding Supplier Pricing Agreement: ' + error.message);
+    }
+}
+
+exports.editPricingAgreement = async (pa_id, pricing_agreement, lead_time) => {
+    try {
+        const sql = `
+            UPDATE supplier_agreements
+            SET pricing_agreement = ?, lead_time = ?
+            WHERE id = ?
+        `;
+        const [rows] = await db.execute(sql, [
+            pricing_agreement, lead_time, pa_id
+        ]);
+        return rows;
+    } catch (error) {
+        throw new Error('Error Editing Supplier Pricing Agreement: ' + error.message);
     }
 }
 

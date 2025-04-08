@@ -70,6 +70,7 @@
                             <th>Product ID</th>
                             <th>Product Name</th>
                             <th>Pricing Agreement</th>
+                            <th>Lead Time</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -79,8 +80,9 @@
                             <td><%= sp.product_id %></td>
                             <td><%= sp.product_name %></td>
                             <td><%= sp.pricing_agreement %></td>
+                            <td><%= sp.lead_time %></td>
                             <td>
-                                <button class="editBtn px-2 py-1 bg-blue-500 text-white rounded">Edit</button>
+                                <button class="editBtn px-2 py-1 bg-blue-500 text-white rounded" data-id="<%= sp.id %>">Edit</button>
                             </td>
                         </tr>
                         <% }); %>
@@ -108,6 +110,10 @@
                         <label for="pricing_agreement" class="block text-sm font-medium text-gray-700"> Set Pricing Agreement</label>
                         <input type="number" name="pricing_agreement" id="pricing_agreement" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     </div>
+                    <div class="mb-4">
+                        <label for="lead_time" class="block text-sm font-medium text-gray-700"> Lead Time</label>
+                        <input type="number" name="lead_time" id="lead_time" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
                     <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Add Product In Inventory List</button>
                 </form>
             </div>
@@ -118,43 +124,19 @@
 
 <!-- Edit Modal -->
 <div id="editModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-    <form id="editForm" action="/supplier/editSupplier" method="post">
+    <form id="editForm" action="/supplier/edit-pricing-agreement" method="post">
         <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-            <h2 id="productName" class="text-xl font-semibold mb-4">Edit Product - <span id="modalProductName"></span></h2>
-            <input type="hidden" id="productId" name="productId">
+            <h2 id="productName" class="text-xl font-semibold mb-4">Edit Pricing Agreement - <span id="modalProductName"></span></h2>
+            <input type="hidden" id="pricing_agreement_id" name="pricing_agreement_id">
+            <input type="hidden" id="supplier_id" name="supplier_id" value="<%= supplier_name.id %>">
             <div class="mb-4">
-                <label for="productsku" class="block text-sm font-medium text-gray-700">Product SKU</label>
-                <input type="text" name="productsku" id="productsku" 
+                <label for="edit_pricing_agreement" class="block text-sm font-medium text-gray-700">Pricing Agreement</label>
+                <input type="text" name="edit_pricing_agreement" id="edit_pricing_agreement" 
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="mb-4">
-                <label for="productCategory" class="block text-sm font-medium text-gray-700">Product Category</label>
-                <input type="text" name="productCategory" id="productCategory" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            </div>
-            <div class="mb-4">
-                <label for="productBrand" class="block text-sm font-medium text-gray-700">Product Brand</label>
-                <input type="text" name="productBrand" id="productBrand" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            </div>
-            <div class="mb-4">
-                <label for="productSupplierId" class="block text-sm font-medium text-gray-700">Product Supplier ID</label>
-                <input type="text" name="productSupplierId" id="productSupplierId" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            </div>
-            <div class="mb-4">
-                <label for="productBatchNumber" class="block text-sm font-medium text-gray-700">Product Batch Number</label>
-                <input type="text" name="productBatchNumber" id="productBatchNumber" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            </div>
-            <div class="mb-4">
-                <label for="productExpiryDate" class="block text-sm font-medium text-gray-700">Product Expiry Date</label>
-                <input type="date" name="productExpiryDate" id="productExpiryDate" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            </div>
-            <div class="mb-4">
-                <label for="productStorageLocation" class="block text-sm font-medium text-gray-700">Product Storage Location</label>
-                <input type="text" name="productStorageLocation" id="productStorageLocation" 
+                <label for="edit_lead_time" class="block text-sm font-medium text-gray-700">Lead Time</label>
+                <input type="text" name="edit_lead_time" id="edit_lead_time" 
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="flex justify-end">
@@ -199,15 +181,10 @@
             const data = table.row($(this).parents('tr')).data();
 
             // Prefill modal with selected row data
-            $('#productId').val(data[0]);
+            $('#pricing_agreement_id').val( $(this).data('id'));
             $('#modalProductName').text(data[1]);
-            $('#productsku').val(data[2]);
-            $('#productCategory').val(data[3]);
-            $('#productBrand').val(data[4]);
-            $('#productSupplierId').val(data[5]);
-            $('#productBatchNumber').val(data[7]);
-            $('#productExpiryDate').val(formatDateForInput(data[8]));
-            $('#productStorageLocation').val(data[9]);
+            $('#edit_pricing_agreement').val(data[2]);
+            $('#edit_lead_time').val(data[3]);
 
             // Open modal
             $('#editModal').removeClass('hidden');

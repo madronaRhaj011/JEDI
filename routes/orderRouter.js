@@ -16,5 +16,9 @@ router.get('/get_order_items/:id', orderController.getOrderItems);
 
 // POST route to add products to inventory and complete the order
 router.post('/add_to_inventory', orderController.addToInventory);
+
+// POST route to create PO
+router.post('/create-purchase-order', orderController.createPurchaseOrder);
+// router.post('/api/get-suppliers-for-products', orderController.getSuppliersForProducts);
 module.exports = router;
 

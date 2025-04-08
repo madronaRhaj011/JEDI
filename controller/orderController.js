@@ -175,14 +175,139 @@ exports.addToInventory = async (req, res) => {
 
 exports.getOrderSuggestions = async (req, res) => {
     try {
-        req.session.user = req.session.user;
+        const lowStockItems = await orderModel.getLowStockItems();
 
-        return res.render('order_suggestion', {  user: req.session.user });
+        // Group items by product_id and collect suppliers
+        const grouped = {};
+        lowStockItems.forEach(item => {
+            if (!grouped[item.product_id]) {
+                grouped[item.product_id] = {
+                    product_id: item.product_id,
+                    product_name: item.product_name,
+                    product_sku: item.product_sku,
+                    total_quantity: item.total_quantity,
+                    threshold_value: item.threshold_value,
+                    suggested_quantity: item.suggested_quantity,
+                    suppliers: []
+                };
+            }
+
+            // If the item has a supplier, add it to the array
+            if (item.supplier_id) {
+                grouped[item.product_id].suppliers.push({
+                    supplier_id: item.supplier_id,
+                    supplier_name: item.supplier_name,
+                    pricing_agreement: item.pricing_agreement,
+                    lead_time: item.lead_time
+                });
+            }
+        });
+
+        const formattedItems = Object.values(grouped);
+
+        res.render('order_suggestion', {
+            lowStockItems: formattedItems,
+            user: req.session.user
+        });
 
     } catch (error) {
         console.error('Error in Showing Logs:', error);
         res.status(500).send('Internal Server Error');
     }
-}
+};
 
+
+
+exports.createPurchaseOrder = async (req, res) => {
+    const { products } = req.body;
+    
+    if (!products || !Array.isArray(products) || products.length === 0) {
+        return res.status(400).json({ error: 'No valid products provided' });
+    }
+
+    const status = "Pending"; // Default status
+    const order_date = new Date().toISOString();
+    const expected_delivery_date = null; // You might want to calculate this based on lead time
+
+    try {
+        // Step 1: Group products by supplier
+        const groupedProducts = {};
+
+        products.forEach(product => {
+            if (!groupedProducts[product.supplier_id]) {
+                groupedProducts[product.supplier_id] = [];
+            }
+            groupedProducts[product.supplier_id].push({
+                product_id: product.product_id,
+                quantity: product.quantity,
+                price: product.price
+            });
+        });
+
+        // Step 2: Create purchase orders for each supplier
+        const createdOrderIds = [];
+        
+        for (const [supplierId, items] of Object.entries(groupedProducts)) {
+            // Calculate the total amount for this supplier
+            let total_amount = 0;
+            items.forEach(item => {
+                total_amount += item.quantity * item.price;
+            });
+
+            // Create the purchase order in the database
+            const purchase_order_id = await orderModel.createPurchaseOrderFromSuggestion(
+                supplierId, 
+                status, 
+                order_date, 
+                expected_delivery_date, 
+                total_amount
+            );
+            
+            createdOrderIds.push(purchase_order_id);
+
+            // Insert each product into the purchase_order_items table
+            for (const item of items) {
+                await orderModel.addPurchaseOrderItemFromSuggestion(
+                    purchase_order_id,
+                    item.product_id,
+                    item.quantity,
+                    item.price
+                );
+            }
+        }
+
+        // Send success response
+        res.status(200).json({ 
+            message: 'Purchase Orders Created Successfully!',
+            orderIds: createdOrderIds
+        });
+    } catch (error) {
+        console.error('Error in Creating Purchase Order:', error);
+        res.status(500).json({ error: 'Failed to create purchase order: ' + error.message });
+    }
+};
+
+
+exports.getSuppliersForProducts = async (req, res) => {
+    const { productIds } = req.body;
+  
+    try {
+      const results = {};
+  
+      for (const productId of productIds) {
+        const suppliers = await orderModel.getSuppliersForProduct(productId);
+        const productName = await orderModel.getProductNameById(productId);
+  
+        results[productId] = {
+          name: productName,
+          suppliers
+        };
+      }
+  
+      res.json({ success: true, products: results });
+    } catch (error) {
+      console.error("Error fetching suppliers:", error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  };
 

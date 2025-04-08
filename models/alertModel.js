@@ -14,6 +14,20 @@ exports.getProductAlertDropdown = async () => {
     }
 };
 
+exports.getSuggestedThresholdByProductId = async (productId) => {
+    const sql = `
+        SELECT 
+            ROUND(SUM(si.quantity_sold) / COUNT(DISTINCT s.sale_date) * sa.lead_time) AS suggested_threshold
+        FROM sale_item si
+        JOIN sales s ON s.sale_id = si.sale_id
+        JOIN supplier_agreements sa ON sa.product_id = si.product_id
+        WHERE si.product_id = ?
+    `;
+    const [result] = await db.execute(sql, [productId]);
+    return result[0]?.suggested_threshold || 10; // Default fallback if null
+};
+
+
 exports.addAlertThreshold = async (product_id, threshold_value, days_before_alert_period) => {
     try {
         const sql = 'INSERT INTO stock_alerts (product_id, threshold_value, days_before_alert_period) VALUES (?, ?, ?)';

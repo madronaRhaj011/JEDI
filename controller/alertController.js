@@ -22,6 +22,17 @@ exports.getProductAlertDropdown = async (req, res) => {
     }
 };
 
+exports.getSuggestedThreshold = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const threshold = await alertModel.getSuggestedThresholdByProductId(productId);
+        res.json({ threshold });
+    } catch (error) {
+        console.error("Threshold suggestion error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 exports.addAlertThreshold = async (req, res) => {
     const {product_id, threshold, day_before_expiry} = req.body;
     

@@ -8,6 +8,7 @@ router.get('/pricing-agreement', supplierController.getPricingAgreements);
 router.post('/addSupplier', supplierController.addSupplier);
 router.post('/editSupplier', supplierController.editSupplier);
 router.post('/add-pricing-agreement', supplierController.addPricingAgreement);
+router.post('/edit-pricing-agreement', supplierController.editPricingAgreement);
 router.get('/supplier_id_name', supplierController.getSupplierIdName);
 router.get("/pricing_agreements/:supplierId", supplierController.getSupplierProducts);
 router.get('/supplier-performance-details/:id', supplierController.getSupplierPerformanceDetails);

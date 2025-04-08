@@ -24,150 +24,419 @@
         <% } %>
 
         <div class="container mx-auto p-6 bg-white p-6 rounded-lg shadow-md mb-8">
-            <div class="bg-white p-6 shadow-md rounded-lg">
-                <h2 class="text-xl font-semibold mb-4">Low Stock Reorder Recommendations</h2>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-blue-500 text-white">
-                            <th class="p-3">Product Name</th>
-                            <th class="p-3">SKU</th>
-                            <th class="p-3">Current Stock</th>
-                            <th class="p-3">Reorder Point</th>
-                            <th class="p-3">Suggested Quantity</th>
-                            <th class="p-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Shampoo</td>
-                            <td class="p-3">SH-001</td>
-                            <td class="p-3 text-red-600 font-bold">15</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">50</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Toothpaste</td>
-                            <td class="p-3">TP-002</td>
-                            <td class="p-3 text-yellow-600 font-bold">25</td>
-                            <td class="p-3">40</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- AI-Based Reorder Suggestions -->
-            <div class="bg-white p-6 shadow-md rounded-lg">
-                <h2 class="text-xl font-semibold mb-4">AI-Based Reorder Recommendations</h2>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-blue-500 text-white">
-                            <th class="p-3">Product Name</th>
-                            <th class="p-3">SKU</th>
-                            <th class="p-3">Current Stock</th>
-                            <th class="p-3">Reorder Point</th>
-                            <th class="p-3">Suggested Quantity</th>
-                            <th class="p-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Shampoo</td>
-                            <td class="p-3">SH-001</td>
-                            <td class="p-3 text-red-600 font-bold">15</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">50</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Toothpaste</td>
-                            <td class="p-3">TP-002</td>
-                            <td class="p-3 text-yellow-600 font-bold">25</td>
-                            <td class="p-3">40</td>
-                            <td class="p-3">30</td>
-                            <td class="p-3">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded">Create PO</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- Supplier Lead Time & Demand Trends -->
-            <div class="bg-white p-6 shadow-md rounded-lg mt-6">
-                <h2 class="text-xl font-semibold mb-4">Supplier & Demand Insights</h2>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-700 text-white">
-                            <th class="p-3">Product</th>
-                            <th class="p-3">Supplier</th>
-                            <th class="p-3">Lead Time (Days)</th>
-                            <th class="p-3">Avg. Weekly Sales</th>
-                            <th class="p-3">Projected Demand</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Shampoo</td>
-                            <td class="p-3">Supplier A</td>
-                            <td class="p-3">7</td>
-                            <td class="p-3">12</td>
-                            <td class="p-3 text-blue-600 font-bold">High</td>
-                        </tr>
-                        <tr class="border-b text-center">
-                            <td class="p-3">Toothpaste</td>
-                            <td class="p-3">Supplier B</td>
-                            <td class="p-3">5</td>
-                            <td class="p-3">8</td>
-                            <td class="p-3 text-yellow-600 font-bold">Moderate</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-    
-            <!-- AI-Based Order Adjustment -->
-            <div class="bg-white p-6 shadow-md rounded-lg mt-6">
-                <h2 class="text-xl font-semibold mb-4">Adjust AI-Suggested Orders</h2>
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <label class="block font-medium">Product</label>
-                        <select class="w-full p-2 border rounded">
-                            <option>Shampoo</option>
-                            <option>Toothpaste</option>
-                        </select>
+            <div class="max-w-6xl mx-auto">
+                <form id="poForm">
+                    <div class="bg-white p-6 shadow-md rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold">Low Stock Reorder Recommendations</h2>
+                            <button type="submit" id="createPoBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                                Create PO for Selected Items
+                            </button>
+                        </div>
+                        
+                        <% if (lowStockItems && lowStockItems.length > 0) { %>
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-blue-500 text-white">
+                                        <th class="p-3 text-left w-12">Select</th>
+                                        <th class="p-3">Product Name</th>
+                                        <th class="p-3">Current Stock</th>
+                                        <th class="p-3">Reorder Point</th>
+                                        <th class="p-3">Supplier</th>
+                                        <th class="p-3">Price</th>
+                                        <th class="p-3">Suggested Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% lowStockItems.forEach(function(item) { %>
+                                        <tr class="border-b hover:bg-gray-50 text-center" data-product-id="<%= item.product_id %>" data-product-name="<%= item.product_name %>">
+                                            <td class="p-3 text-left">
+                                                <input type="checkbox" name="selectedItems" value="<%= item.product_id %>" class="w-4 h-4 rounded item-checkbox" data-product-id="<%= item.product_id %>">
+                                            </td>
+                                            <td class="p-3"><%= item.product_name %></td>
+                                            <td class="p-3 <%= item.total_quantity < item.threshold_value * 0.6 ? 'text-red-600' : 'text-yellow-600' %> font-bold">
+                                                <%= item.total_quantity %>
+                                            </td>
+                                            <td class="p-3"><%= item.threshold_value %></td>
+                                            <td class="p-3">
+                                                <% if (item.suppliers && item.suppliers.length > 0) { %>
+                                                    <select name="supplier_<%= item.product_id %>" class="border rounded p-1 w-full supplier-select" data-product-id="<%= item.product_id %>">
+                                                        <option value="">Select Supplier</option>
+                                                        <% item.suppliers.forEach(function(supplier) { %>
+                                                            <option value="<%= supplier.supplier_id %>" data-price="<%= supplier.pricing_agreement %>" data-lead-time="<%= supplier.lead_time %>">
+                                                                <%= supplier.supplier_name %>
+                                                            </option>
+                                                        <% }); %>
+                                                    </select>
+                                                <% } else { %>
+                                                    <div class="text-red-500 text-sm">
+                                                        No supplier agreements
+                                                        <button type="button" class="text-blue-500 underline setup-agreement-btn" 
+                                                                data-product-id="<%= item.product_id %>" 
+                                                                data-product-name="<%= item.product_name %>">
+                                                            Set up now
+                                                        </button>
+                                                    </div>
+                                                <% } %>
+                                            </td>
+                                            <td class="p-3">
+                                                <input type="text" name="price_<%= item.product_id %>" class="w-24 text-center border rounded p-1 price-field" readonly>
+                                            </td>
+                                            <td class="p-3">
+                                                <input type="number" name="quantity_<%= item.product_id %>" 
+                                                    value="<%= item.suggested_quantity %>" min="1"
+                                                    class="w-20 text-center border rounded p-1">
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                            
+                            <div class="mt-4 text-sm text-gray-600">
+                                <p>* Red indicates critically low stock, yellow indicates approaching reorder point</p>
+                            </div>
+                        <% } else { %>
+                            <div class="py-8 text-center text-gray-500">
+                                <p>No products are currently below their reorder threshold.</p>
+                            </div>
+                        <% } %>
                     </div>
-                    <div>
-                        <label class="block font-medium">Suggested Quantity</label>
-                        <input type="number" class="w-full p-2 border rounded" placeholder="Enter quantity">
-                    </div>
-                    <div>
-                        <label class="block font-medium">Supplier</label>
-                        <select class="w-full p-2 border rounded">
-                            <option>Supplier A</option>
-                            <option>Supplier B</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Update Order</button>
+                </form>
             </div>
-            
         </div>   
-        
-        
     </div>
 
-   
+    <!-- Supplier Agreement Modal -->
+    <div id="supplierAgreementModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Create Supplier Agreement</h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form id="supplierAgreementForm" action="/supplier-agreements/create" method="POST">
+                <div class="p-4">
+                    <input type="hidden" id="modalProductId" name="product_id">
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="productNameDisplay">
+                            Product
+                        </label>
+                        <input type="text" id="productNameDisplay" class="w-full p-2 border rounded bg-gray-100" readonly>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="supplierSelect">
+                            Supplier
+                        </label>
+                        <select id="supplierSelect" name="supplier_id" class="w-full p-2 border rounded" required>
+                            <option value="">Loading suppliers...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="pricingAgreement">
+                            Pricing Agreement 
+                        </label>
+                        <input type="number" id="pricingAgreement" name="pricing_agreement" class="w-full p-2 border rounded" step="0.01" min="0.01" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="leadTime">
+                            Lead Time (days)
+                        </label>
+                        <input type="number" id="leadTime" name="lead_time" class="w-full p-2 border rounded" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button type="button" id="cancelAgreement" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded text-gray-800 transition duration-200">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white transition duration-200">
+                        Save Agreement
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <script>
         
+        // Handle individual checkboxes
+        document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateCreatePoButton);
+        });
         
-    
-    
+        // Update create PO button state
+        function updateCreatePoButton() {
+            const checkboxes = document.querySelectorAll('.item-checkbox:checked');
+            const createPoBtn = document.getElementById('createPoBtn');
+            
+            if (checkboxes.length === 0) {
+                createPoBtn.disabled = true;
+                createPoBtn.classList.add('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
+            } else {
+                createPoBtn.disabled = false;
+                createPoBtn.classList.remove('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
+            }
+        }
+        
+        const poForm = document.getElementById('poForm');
+        const createPoBtn = document.getElementById('createPoBtn');
+
+            // Fix for the form submission code
+        poForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const checkboxes = document.querySelectorAll('.item-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('Please select at least one product to create a purchase order.');
+                return;
+            }
+
+            const selectedItems = [];
+
+            checkboxes.forEach(checkbox => {
+                const productId = checkbox.getAttribute('data-product-id');
+                const supplierSelect = document.querySelector(`select[name="supplier_${productId}"]`);
+                const quantityInput = document.querySelector(`input[name="quantity_${productId}"]`);
+                const priceInput = document.querySelector(`input[name="price_${productId}"]`);
+
+                const supplierId = supplierSelect?.value;
+                const quantity = parseInt(quantityInput?.value || 0);
+                const price = parseFloat(priceInput?.value || 0);
+
+                if (!supplierId || isNaN(quantity) || quantity <= 0 || isNaN(price) || price <= 0) {
+                    return;
+                }
+
+                selectedItems.push({
+                    product_id: productId,
+                    supplier_id: supplierId,
+                    quantity: quantity,
+                    price: price
+                });
+            });
+
+            if (selectedItems.length === 0) {
+                alert('Please select valid products with suppliers, quantity, and price.');
+                return;
+            }
+
+            console.log(selectedItems);
+            
+            try {
+                createPoBtn.disabled = true;
+                createPoBtn.textContent = 'Creating...';
+
+                const response = await fetch('/orders/create-purchase-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ products: selectedItems })
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const result = await response.json();
+                    alert(result.message || 'Something happened');
+                    createPoBtn.disabled = false;
+                    createPoBtn.textContent = 'Create PO for Selected Items';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to create purchase order.');
+                createPoBtn.disabled = false;
+                createPoBtn.textContent = 'Create PO for Selected Items';
+            }
+        });
+
+        // Fix for the supplier selection code
+        document.querySelectorAll('.supplier-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const productId = this.getAttribute('data-product-id');
+                const priceField = document.querySelector(`input[name="price_${productId}"]`);
+                
+                if (this.value) {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    priceField.value = price ? `${price}` : '';
+                    
+                    // Enable the checkbox if a supplier is selected
+                    const checkbox = document.querySelector(`.item-checkbox[data-product-id="${productId}"]`);
+                    checkbox.disabled = false;
+                } else {
+                    priceField.value = '';
+                    
+                    // Disable the checkbox if no supplier is selected
+                    const checkbox = document.querySelector(`.item-checkbox[data-product-id="${productId}"]`);
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                    updateCreatePoButton();
+                }
+            });
+        });
+
+        // Fix for the initialize fields function
+        function initializeFields() {
+            document.querySelectorAll('.supplier-select').forEach(select => {
+                const productId = select.getAttribute('data-product-id');
+                const checkbox = document.querySelector(`.item-checkbox[data-product-id="${productId}"]`);
+                
+                // Disable checkboxes for items without a supplier selected
+                if (!select.value) {
+                    checkbox.disabled = true;
+                }
+                
+                // Set initial price if a supplier is pre-selected
+                if (select.value) {
+                    const selectedOption = select.options[select.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    const priceField = document.querySelector(`input[name="price_${productId}"]`);
+                    priceField.value = price ? `${price}` : '';
+                }
+            });
+        }    
+        // Supplier Agreement Modal
+        const modal = document.getElementById('supplierAgreementModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelAgreement');
+        const setupButtons = document.querySelectorAll('.setup-agreement-btn');
+        const supplierSelect = document.getElementById('supplierSelect');
+        
+        // Load suppliers when the modal is opened
+        function loadSuppliers() {
+            // Clear previous options except the placeholder
+            while (supplierSelect.options.length > 1) {
+                supplierSelect.remove(1);
+            }
+            
+            // Update placeholder text
+            supplierSelect.options[0].text = "Loading suppliers...";
+            
+            fetch("/supplier/supplier_id_name")
+                .then(response => response.json())
+                .then(data => {
+                    // Remove the loading placeholder
+                    supplierSelect.options[0].text = "Select a supplier";
+                    
+                    // Add supplier options
+                    data.forEach(supplier => {
+                        let option = document.createElement("option");
+                        option.value = supplier.id;
+                        option.textContent = supplier.supplier_name;
+                        supplierSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching suppliers:", error);
+                    supplierSelect.options[0].text = "Error loading suppliers";
+                });
+        }
+        
+        // Open modal when "Set up now" is clicked
+        setupButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                const productName = this.closest('tr').getAttribute('data-product-name');
+                
+                document.getElementById('modalProductId').value = productId;
+                document.getElementById('productNameDisplay').value = productName;
+                
+                // Load suppliers
+                loadSuppliers();
+                
+                modal.classList.remove('hidden');
+            });
+        });
+        
+        // Close modal functions
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.getElementById('supplierAgreementForm').reset();
+        }
+        
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Submit supplier agreement form with AJAX
+        const supplierAgreementForm = document.getElementById('supplierAgreementForm');
+        if (supplierAgreementForm) {
+            supplierAgreementForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(this);
+                
+                fetch('/supplier/add-pricing-agreement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product_id: formData.get('product_id'),
+                        supplier_id: formData.get('supplier_id'),
+                        pricing_agreement: formData.get('pricing_agreement'),
+                        lead_time: formData.get('lead_time')
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Close the modal
+                        closeModal();
+                        
+                        // Refresh the page to show the new supplier agreement
+                        window.location.reload();
+                    } else {
+                        alert('Error creating supplier agreement: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while creating the supplier agreement.');
+                });
+            });
+        }
+        
+        // Initialize price fields and checkbox states
+        function initializeFields() {
+            document.querySelectorAll('.supplier-select').forEach(select => {
+                const productId = select.getAttribute('data-product-id');
+                const checkbox = document.querySelector(`.item-checkbox[data-product-id="${productId}"]`);
+                
+                // Disable checkboxes for items without a supplier selected
+                if (!select.value) {
+                    checkbox.disabled = true;
+                }
+                
+                // Set initial price if a supplier is pre-selected
+                if (select.value) {
+                    const selectedOption = select.options[select.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    const priceField = document.querySelector(`input[name="price_${productId}"]`);
+                    priceField.value = price ? `${price}` : '';
+                }
+            });
+        }
+        
+        // Initialize button state and fields on page load
+        updateCreatePoButton();
+        initializeFields();
+    </script>
 </body>
 </html>

@@ -211,9 +211,23 @@
                 option.textContent = product.product_name;
                 dropdown.appendChild(option);
             });
+
+            // Add listener
+            dropdown.addEventListener("change", function () {
+                const productId = this.value;
+                if (productId && productId !== "Select a Product") {
+                    fetch(`/alert/product_threshold/${productId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById("threshold").value = data.threshold;
+                        })
+                        .catch(err => console.error("Threshold fetch error:", err));
+                }
+            });
         })
         .catch(error => console.error("Error fetching products:", error));
 </script>
+
 
 </body>
 </html>

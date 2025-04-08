@@ -19,7 +19,7 @@ exports.addSupplier = async (req, res) => {
     const {supplier_name, contact_person, email, phone_number, address, lead_time} = req.body;
 
     try {
-        await supplierModel.addSupplier(supplier_name, contact_person, email, phone_number, address, lead_time);
+        await supplierModel.addSupplier(supplier_name, contact_person, email, phone_number, address);
         req.flash('success', 'Supplier Added Successfully!');
         req.session.user = req.session.user;
 
@@ -37,9 +37,9 @@ exports.addSupplier = async (req, res) => {
 }
 
 exports.editSupplier = async (req, res) => {
-    const {supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address, supplier_lead_time} = req.body;
+    const {supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address} = req.body;
     try {
-        await supplierModel.editSupplierDetails(supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address, supplier_lead_time)
+        await supplierModel.editSupplierDetails(supplier_id, supplierName, contactPerson, supplier_email, supplier_phone_number, supplier_address)
         req.flash('success', 'Supplier Details Edited Successfully!');
 
         const suppliers = await supplierModel.getAllSupplier();
@@ -99,11 +99,30 @@ exports.getSupplierProducts = async (req, res) => {
 };
 
 exports.addPricingAgreement = async (req, res) => {
-    const {supplier_id, product_id, pricing_agreement } = req.body;
+    const {supplier_id, product_id, pricing_agreement, lead_time } = req.body;
     try {
         
-        await supplierModel.addPricingAgreement(supplier_id, product_id, pricing_agreement);
+        await supplierModel.addPricingAgreement(supplier_id, product_id, pricing_agreement, lead_time);
         req.flash('success', 'Pricing Agreement Added Successfully!');
+
+        const suppliers = await supplierModel.getPricingAgreements(supplier_id);
+        const supplier_name = await supplierModel.getSupplier(supplier_id);
+        
+        res.render('pricing_agreements', {suppliers, supplier_name,  user: req.session.user});
+
+        
+    } catch (error) {
+        console.error('Error in Adding Supplier:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+exports.editPricingAgreement = async (req, res) => {
+    const {supplier_id, pricing_agreement_id, edit_pricing_agreement, edit_lead_time } = req.body;
+    try {
+        
+        await supplierModel.editPricingAgreement(pricing_agreement_id, edit_pricing_agreement, edit_lead_time);
+        req.flash('success', 'Pricing Agreement Edited Successfully!');
 
         const suppliers = await supplierModel.getPricingAgreements(supplier_id);
         const supplier_name = await supplierModel.getSupplier(supplier_id);

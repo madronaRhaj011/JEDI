@@ -89,6 +89,28 @@ exports.addPurchaseOrderItems = async (purchase_order_id, products) => {
     }
 };
 
+// Function to create a purchase order
+exports.createPurchaseOrderFromSuggestion = async (supplier_id, status, order_date, expected_delivery_date, total_amount) => {
+    try {
+        const sql = `INSERT INTO purchase_orders (supplier_id, status, order_date, expected_delivery_date, total_amount) 
+                     VALUES (?, ?, ?, ?, ?)`;
+        const [rows] = await db.execute(sql, [supplier_id, status, order_date, expected_delivery_date, total_amount]);
+        return rows.insertId; // Return the ID of the created purchase order
+    } catch (error) {
+        throw new Error('Error Creating Purchase Order: ' + error.message);
+    }
+};
+
+// Function to add an item to a purchase order
+exports.addPurchaseOrderItemFromSuggestion = async (purchase_order_id, product_id, quantity_ordered, unit_price) => {
+    try {
+        const sql = `INSERT INTO purchase_order_items (purchase_order_id, product_id, quantity_ordered, unit_price) 
+                     VALUES (?, ?, ?, ?)`;
+        await db.execute(sql, [purchase_order_id, product_id, quantity_ordered, unit_price]);
+    } catch (error) {
+        throw new Error('Error Adding Purchase Order Item: ' + error.message);
+    }
+};
 
 // Function to update purchase order status
 exports.updateStatus = async (orderId, status) => {
@@ -232,3 +254,63 @@ exports.getOrderSuggestions = async () => {
         throw new Error('Error Selecting Inventory List ' + error.message);
     }
 }
+
+
+exports.getLowStockItems = async () => {
+    const query = `
+       SELECT 
+        p.product_id,
+        p.product_name,
+        p.product_sku,
+        p.total_quantity,
+        sa.threshold_value,
+        s.id AS supplier_id,
+        s.supplier_name,
+        supa.pricing_agreement,
+        supa.lead_time,
+        CASE
+            WHEN p.total_quantity < sa.threshold_value 
+            THEN GREATEST(
+                sa.threshold_value - p.total_quantity + 10, 
+                (
+                    SELECT COALESCE(SUM(si.quantity_sold), 0) 
+                    FROM sale_item si 
+                    JOIN sales sl ON si.sale_id = sl.sale_id 
+                    WHERE si.product_id = p.product_id 
+                    AND sl.sale_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                )
+            )
+            ELSE 0
+        END AS suggested_quantity
+    FROM 
+        products p
+    JOIN 
+        stock_alerts sa ON p.product_id = sa.product_id
+    LEFT JOIN 
+        supplier_agreements supa ON p.product_id = supa.product_id
+    LEFT JOIN 
+        suppliers s ON supa.supplier_id = s.id
+    WHERE
+        p.total_quantity < sa.threshold_value
+    ORDER BY 
+        (p.total_quantity / sa.threshold_value) ASC, 
+        p.product_name ASC;
+    `;
+    const [rows] = await db.query(query);
+    return rows;
+};
+
+exports.getSuppliersForProduct = async (productId) => {
+    const [agreements] = await db.query(`
+      SELECT sa.supplier_id, sa.pricing_agreement, s.supplier_name as supplier_name
+      FROM supplier_agreements sa
+      JOIN suppliers s ON sa.supplier_id = s.id
+      WHERE sa.product_id = ?
+    `, [productId]);
+    return agreements;
+  };
+  
+exports.getProductNameById = async (productId) => {
+const [product] = await db.query(`SELECT product_name FROM products WHERE product_id = ?`, [productId]);
+return product?.[0]?.name || 'Unknown Product';
+};
