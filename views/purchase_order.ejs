@@ -118,6 +118,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Cancellation Confirmation Modal -->
+        <div id="cancelModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h3 class="text-xl font-semibold mb-4">Confirm Cancellation</h3>
+                <p class="mb-4">Are you sure you want to cancel this order?</p>
+                <p class="mb-4 text-sm text-red-600">This action cannot be undone.</p>
+                
+                <input type="hidden" id="cancelOrderId">
+                
+                <div class="flex justify-end gap-3">
+                    <button id="cancelCancel" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-50">
+                        No, Keep It
+                    </button>
+                    <button id="confirmCancel" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                        Yes, Cancel Order
+                    </button>
+                </div>
+            </div>
+        </div>
         
         <!-- Purchase Order List -->
         <div class="bg-white p-6 shadow-md rounded-lg">
@@ -131,6 +151,7 @@
                         <option value="approved">Approved</option>
                         <option value="delivered">Delivered</option>
                         <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
                     </select>
                 </div>
             </div>
@@ -143,7 +164,7 @@
                             <div>
                                 <h3 class="font-semibold text-lg">Order ID: <span class="text-gray-700"><%= order.id %></span></h3>
                                 <div class="text-gray-600 mt-1">Supplier: <span class="font-medium"><%= order.supplier_name %></span></div>
-                                <div class="text-gray-600 mt-1">Date: <span class="font-medium"><%= order.order_date %></span></div>
+                                <div class="text-gray-600 mt-1">Order Date: <span class="font-medium"><%= order.order_date %></span></div>
                             </div>
                             <div class="text-gray-600 mt-2 md:mt-0">
                                 Status: 
@@ -455,6 +476,53 @@
     let currentOrderIdForInventory = null;
     let currentSupplierIdForInventory = null;
 
+
+    // Add to your DOMContentLoaded event listener
+    const cancelModal = document.getElementById("cancelModal");
+    const cancelOrderId = document.getElementById("cancelOrderId");
+    const cancelCancel = document.getElementById("cancelCancel");
+    const confirmCancel = document.getElementById("confirmCancel");
+
+    // Cancel cancellation
+    cancelCancel.addEventListener("click", function() {
+        cancelModal.classList.add("hidden");
+    });
+
+    // Confirm cancellation
+    confirmCancel.addEventListener("click", function() {
+        const orderId = cancelOrderId.value;
+        
+        fetch(`/orders/cancel_order`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: orderId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Order ID ${orderId} has been cancelled`);
+                // Update the UI
+                const orderElement = document.querySelector(`.cancel-order[data-id="${orderId}"]`).closest(".order-item");
+                if (orderElement) {
+                    orderElement.querySelector(".status-badge").innerText = "cancelled";
+                    orderElement.querySelector(".status-badge").className = 
+                        "status-badge inline-flex items-center px-2.5 py-0.5 bg-red-100 text-red-700 font-medium rounded-full text-sm";
+                    // Hide action buttons
+                    orderElement.querySelectorAll(".update-status, .cancel-order").forEach(btn => {
+                        btn.style.display = "none";
+                    });
+                }
+                cancelModal.classList.add("hidden");
+            } else {
+                alert("Failed to cancel order: " + (data.message || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            console.error("Error cancelling order:", error);
+            alert("Failed to cancel order. Please try again.");
+        });
+    });
+
     // Prevent past dates from being selected
     const today = new Date().toISOString().split('T')[0];
     expectedDeliveryDate.setAttribute('min', today);
@@ -671,7 +739,7 @@
                             <div>
                                 <h3 class="font-semibold text-lg">Order ID: <span class="text-gray-700">${order.id}</span></h3>
                                 <div class="text-gray-600 mt-1">Supplier: <span class="font-medium">${order.supplier_name}</span></div>
-                                <div class="text-gray-600 mt-1">Date: <span class="font-medium">${new Date(order.order_date).toLocaleDateString()}</span></div>
+                                <div class="text-gray-600 mt-1">Order Date: <span class="font-medium">${new Date(order.order_date).toLocaleDateString()}</span></div>
                                 ${deliveryDateDisplay}
                             </div>
                             <div class="text-gray-600 mt-2 md:mt-0">
@@ -700,16 +768,37 @@
                             </div>
                         </div>
                         <div class="mt-4 flex items-center justify-end gap-3">
-                            ${nextStatus !== null ? `
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors text-sm font-medium update-status" 
-                                  data-id="${order.id}" 
-                                  data-next="${nextStatus}" 
-                                  data-supplier="${order.supplier_id}"
-                                  data-current="${order.status}">
-                                    Mark as ${nextStatus}
-                                </button>
-                            ` : ""}
-                        </div>
+                        ${nextStatus !== null ? `
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors text-sm font-medium update-status" 
+                            data-id="${order.id}" 
+                            data-next="${nextStatus}" 
+                            data-supplier="${order.supplier_id}"
+                            data-current="${order.status}">
+                                Mark as ${nextStatus}
+                            </button>
+                        ` : ""}
+                        ${order.status === "pending" ? `
+                            <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors text-sm font-medium download-pdf" 
+                            data-id="${order.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                </svg>
+                                Download PDF
+                            </button>
+                            <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition-colors text-sm font-medium send-email" 
+                            data-id="${order.id}" 
+                            data-supplier="${order.supplier_name}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Email PO
+                            </button>
+                            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors text-sm font-medium cancel-order" 
+                            data-id="${order.id}">
+                                Cancel Order
+                            </button>
+                        ` : ""}
+                    </div>
                     `;
                     ordersContainer.appendChild(orderElement);
                 });
@@ -747,6 +836,132 @@
                     // Direct update for other status changes
                     updateOrderStatus(orderId, nextStatus);
                 }
+            });
+        });
+         // NEW: Add listeners for the Download PDF buttons
+        document.querySelectorAll(".download-pdf").forEach(button => {
+            button.addEventListener("click", function() {
+                const orderId = this.dataset.id;
+                downloadPurchaseOrderPDF(orderId);
+            });
+        });
+        
+        // NEW: Add listeners for the Send Email buttons
+        document.querySelectorAll(".send-email").forEach(button => {
+            button.addEventListener("click", function() {
+                const orderId = this.dataset.id;
+                const supplierName = this.dataset.supplier;
+                sendPurchaseOrderEmail(orderId, supplierName);
+            });
+        });
+        // Add this to your addStatusUpdateListeners function
+        document.querySelectorAll(".cancel-order").forEach(button => {
+            button.addEventListener("click", function() {
+                const orderId = this.dataset.id;
+                cancelOrderId.value = orderId;
+                cancelModal.classList.remove("hidden");
+            });
+        });
+    }
+
+        // NEW: Function to handle PDF download
+    function downloadPurchaseOrderPDF(orderId) {
+        // Show loading indicator
+        const button = document.querySelector(`.download-pdf[data-id="${orderId}"]`);
+        const originalText = button.innerHTML;
+        button.innerHTML = `<svg class="animate-spin h-4 w-4 mr-1 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg> Processing...`;
+        
+        // Make request to generate and download PDF
+        fetch(`/orders/download_pdf/${orderId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a temporary URL for the blob
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `purchase_order_${orderId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                button.innerHTML = originalText;
+            })
+            .catch(error => {
+                console.error("Error downloading PDF:", error);
+                alert("Failed to download PDF. Please try again later.");
+                button.innerHTML = originalText;
+            });
+    }
+
+    // NEW: Function to handle email sending
+    function sendPurchaseOrderEmail(orderId, supplierName) {
+        // Show loading indicator
+        const button = document.querySelector(`.send-email[data-id="${orderId}"]`);
+        const originalText = button.innerHTML;
+        button.innerHTML = `<svg class="animate-spin h-4 w-4 mr-1 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg> Sending...`;
+        
+        // Create a modal to confirm the email sending
+        const emailModal = document.createElement('div');
+        emailModal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50';
+        emailModal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h3 class="text-xl font-semibold mb-4">Send Purchase Order Email</h3>
+                <p class="mb-4">Send purchase order #${orderId} to ${supplierName}?</p>
+                
+                <div class="flex justify-end gap-3">
+                    <button id="cancelEmail" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button id="confirmEmail" class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600">
+                        Send Email
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(emailModal);
+        
+        // Add event listeners to the modal buttons
+        document.getElementById('cancelEmail').addEventListener('click', function() {
+            document.body.removeChild(emailModal);
+            button.innerHTML = originalText;
+        });
+        
+        document.getElementById('confirmEmail').addEventListener('click', function() {
+            // Make request to send email
+            fetch(`/orders/send_email/${orderId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Purchase order has been sent to ${supplierName} successfully!`);
+                } else {
+                    alert(data.message || "Failed to send email. Please try again later.");
+                }
+                document.body.removeChild(emailModal);
+                button.innerHTML = originalText;
+            })
+            .catch(error => {
+                console.error("Error sending email:", error);
+                alert("Failed to send email. Please try again later.");
+                document.body.removeChild(emailModal);
+                button.innerHTML = originalText;
             });
         });
     }
@@ -814,7 +1029,7 @@
     }
 
     function getNextStatus(currentStatus) {
-        return { "pending": "approved", "approved": "delivered", "delivered": "completed", "completed": "" }[currentStatus] || null;
+        return { "pending": "approved", "approved": "delivered", "delivered": "completed", "completed": "", }[currentStatus] || null;
     }
 
     function updateOrderStatus(orderId, nextStatus) {

@@ -257,8 +257,48 @@ exports.getOrderSuggestions = async () => {
 
 
 exports.getLowStockItems = async () => {
-    const query = `
-       SELECT 
+    //query na included lahat basta lowstock
+    // const query = `
+    //    SELECT 
+    //     p.product_id,
+    //     p.product_name,
+    //     p.product_sku,
+    //     p.total_quantity,
+    //     sa.threshold_value,
+    //     s.id AS supplier_id,
+    //     s.supplier_name,
+    //     supa.pricing_agreement,
+    //     supa.lead_time,
+    //     CASE
+    //         WHEN p.total_quantity < sa.threshold_value 
+    //         THEN GREATEST(
+    //             sa.threshold_value - p.total_quantity + 10, 
+    //             (
+    //                 SELECT COALESCE(SUM(si.quantity_sold), 0) 
+    //                 FROM sale_item si 
+    //                 JOIN sales sl ON si.sale_id = sl.sale_id 
+    //                 WHERE si.product_id = p.product_id 
+    //                 AND sl.sale_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    //             )
+    //         )
+    //         ELSE 0
+    //     END AS suggested_quantity
+    // FROM 
+    //     products p
+    // JOIN 
+    //     stock_alerts sa ON p.product_id = sa.product_id
+    // LEFT JOIN 
+    //     supplier_agreements supa ON p.product_id = supa.product_id
+    // LEFT JOIN 
+    //     suppliers s ON supa.supplier_id = s.id
+    // WHERE
+    //     p.total_quantity < sa.threshold_value
+    // ORDER BY 
+    //     (p.total_quantity / sa.threshold_value) ASC, 
+    //     p.product_name ASC;
+    // `;
+    // query na excluded yung mga na reorder na
+    const query = `SELECT 
         p.product_id,
         p.product_name,
         p.product_sku,
@@ -292,11 +332,17 @@ exports.getLowStockItems = async () => {
         suppliers s ON supa.supplier_id = s.id
     WHERE
         p.total_quantity < sa.threshold_value
+        AND p.product_id NOT IN (
+            SELECT poi.product_id
+            FROM purchase_order_items poi
+            JOIN purchase_orders po ON poi.purchase_order_id = po.id
+            WHERE po.status IN ('pending', 'approved')
+        )
     ORDER BY 
         (p.total_quantity / sa.threshold_value) ASC, 
         p.product_name ASC;
     `;
-    const [rows] = await db.query(query);
+        const [rows] = await db.query(query);
     return rows;
 };
 
@@ -313,4 +359,59 @@ exports.getSuppliersForProduct = async (productId) => {
 exports.getProductNameById = async (productId) => {
 const [product] = await db.query(`SELECT product_name FROM products WHERE product_id = ?`, [productId]);
 return product?.[0]?.name || 'Unknown Product';
+};
+
+/**
+ * Get a purchase order with all related details for PDF generation or email
+ * @param {number} orderId - The order ID
+ * @returns {Promise<Object>} - The order with supplier and product details
+ */
+exports.getOrderWithDetails = async (orderId) => {
+    try {
+        // Query to get order details with supplier information
+        const orderQuery = `
+            SELECT po.id, po.order_date, po.expected_delivery_date, po.status, 
+                   po.total_amount, s.id as supplier_id, s.supplier_name, 
+                   s.email as supplier_email, s.contact_person, s.phone_number,
+                   s.address
+            FROM purchase_orders po
+            JOIN suppliers s ON po.supplier_id = s.id
+            WHERE po.id = ?
+        `;
+        
+        // Query to get order items with product details
+        const itemsQuery = `
+            SELECT poi.id as item_id, poi.product_id, p.product_name, p.product_sku,
+                   poi.quantity_ordered, poi.unit_price
+            FROM purchase_order_items poi
+            JOIN products p ON poi.product_id = p.product_id
+            WHERE poi.purchase_order_id = ?
+        `;
+        
+        // Execute queries
+        const [orderRows] = await db.query(orderQuery, [orderId]);
+        const [itemRows] = await db.query(itemsQuery, [orderId]);
+        
+        if (orderRows.length === 0) {
+            return null;
+        }
+        
+        // Combine the data
+        const order = orderRows[0];
+        order.products = itemRows;
+        
+        return order;
+        
+    } catch (error) {
+        console.error('Database error:', error);
+        throw error;
+    }
+};
+
+exports.cancelOrderById = async (id) => {
+    const [result] = await db.execute(
+        "UPDATE purchase_orders SET status = 'cancelled' WHERE id = ? AND status = 'pending'",
+        [id]
+    );
+    return result;
 };

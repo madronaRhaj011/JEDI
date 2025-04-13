@@ -8,6 +8,8 @@ router.get('/purchase_order', orderController.getOrders);
 router.post('/createCustomPO', orderController.createCustomPO);
 router.post("/update_order_status", orderController.updateOrderStatus);
 router.post("/submit_supplier_review", orderController.submitSupplierReview);
+// In your orders routes file
+router.post('/cancel_order', orderController.cancelOrder);
 
 
 
@@ -20,5 +22,9 @@ router.post('/add_to_inventory', orderController.addToInventory);
 // POST route to create PO
 router.post('/create-purchase-order', orderController.createPurchaseOrder);
 // router.post('/api/get-suppliers-for-products', orderController.getSuppliersForProducts);
+
+// New routes for PDF and Email
+router.get('/download_pdf/:id', orderController.downloadPurchaseOrderPDF);
+router.post('/send_email/:id', orderController.sendPurchaseOrderEmail);
 module.exports = router;
 

@@ -4,6 +4,7 @@ const app = express();
 const session = require('express-session');
 const path = require('path')
 const flash = require('express-flash');
+require('dotenv').config();
 
 
 

@@ -1,5 +1,7 @@
 const orderModel = require('../models/orderModel');
 const inventoryModel = require('../models/inventoryModel');
+const pdfGenerator = require('../utils/pdfGenerator');
+const emailService = require('../utils/emailService');
 
 exports.getOrders = async (req, res) => {
     try {
@@ -311,3 +313,117 @@ exports.getSuppliersForProducts = async (req, res) => {
     }
   };
 
+
+  
+/**
+ * Generate and download a purchase order PDF
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.downloadPurchaseOrderPDF = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        
+        // Fetch the order with all related data
+        const order = await orderModel.getOrderWithDetails(orderId);
+        
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+        
+        // Generate PDF
+        const pdfBuffer = await pdfGenerator.generatePurchaseOrderPDF(order);
+        
+        // Set response headers for PDF download
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename=purchase_order_${orderId}.pdf`,
+            'Content-Length': pdfBuffer.length
+        });
+        
+        // Send the PDF
+        res.send(pdfBuffer);
+        
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to generate PDF',
+            error: error.message 
+        });
+    }
+};
+
+/**
+ * Send purchase order via email
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.sendPurchaseOrderEmail = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        
+        // Fetch the order with all related data
+        const order = await orderModel.getOrderWithDetails(orderId);
+        
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+        
+        // Generate PDF for attachment
+        const pdfBuffer = await pdfGenerator.generatePurchaseOrderPDF(order);
+        
+        // Get supplier email (assuming it's stored in the order data)
+        const supplierEmail = order.supplier_email;
+        
+        if (!supplierEmail) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Supplier email not found'
+            });
+        }
+        
+        // Send email with PDF attachment
+        await emailService.sendPurchaseOrderEmail({
+            orderId: order.id,
+            supplierName: order.supplier_name,
+            supplierEmail: supplierEmail,
+            orderDate: order.order_date,
+            totalAmount: order.total_amount,
+            pdfBuffer: pdfBuffer
+        });
+        
+        res.json({ 
+            success: true, 
+            message: 'Purchase order email sent successfully'
+        });
+        
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to send email',
+            error: error.message 
+        });
+    }
+};
+
+exports.cancelOrder = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const result = await orderModel.cancelOrderById(id);
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Order not found or cannot be cancelled" 
+            });
+        }
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error cancelling order:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
